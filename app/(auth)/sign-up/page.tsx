@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SignupPage = () => {
   return (
     <main className="min-h-screen bg-primary-lighter px-5 flex justify-center items-center">
-      <section className="w-full max-w-md bg-card border border-border rounded-lg shadow-sm px-8 py-10 flex flex-col gap-6">
+      <section className="min-w-130 max-w-md bg-card border border-border rounded-lg shadow-sm px-8 py-10 flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-bold text-primary flex justify-center">

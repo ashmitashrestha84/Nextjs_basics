@@ -1,40 +1,32 @@
-"use client";
 
 import Button from "@/components/button";
 import Input from "@/components/common/input";
-import { SubmitEvent, useState } from "react";
+import { useForm } from "react-hook-form"; 
+import * as yup from "yup"
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const name = e.target.name;
+  const {register, handleSubmit}= useForm({
+    defaultValues:{
+      email:"",
+      password:"",
+    }
+  })
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
 
-    console.log(formData);
+  const onSubmit = (data:{email:string, password:string}) => {
+    console.log("form submitted",data);
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       <Input
         label="Email"
         placeholder="john@gmail.com"
         type="email"
         name="email"
         id="email"
-        value={formData.email}
-        onChange={onChange}
+        register={register}
       />
 
       <Input
@@ -43,8 +35,7 @@ const LoginForm = () => {
         type="password"
         name="password"
         id="password"
-        value={formData.password}
-        onChange={onChange}
+        register={register}
       />
 
       <div>

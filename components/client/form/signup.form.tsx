@@ -3,56 +3,63 @@
 import Button from "@/components/button";
 import Input from "@/components/common/input";
 import { SubmitEvent, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+
+  const {register,handleSubmit} = useForm({
+    defaultValues: {
+      full_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const name = e.target.name;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
+  const onSubmit = (data: {
+    full_name: string;
+    email: string;
+    phone: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
+    if (data.password !== data.confirmPassword) {
       console.log("Passwords do not match");
       return;
     }
 
-    console.log(formData);
+    console.log(data);
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       <Input
-        label="Name"
-        placeholder="John Doe"
+        label="Full Name"
+        placeholder="Enter your name"
         type="text"
-        name="name"
-        id="name"
-        value={formData.name}
-        onChange={onChange}
+        name="full_name"
+        id="full_name"
+        register={register}
+    
       />
 
       <Input
         label="Email"
-        placeholder="john@gmail.com"
+        placeholder="Enter your email"
         type="email"
         name="email"
         id="email"
-        value={formData.email}
-        onChange={onChange}
+        register={register}
+      />
+
+      <Input
+        label="Phone"
+        placeholder="Enter your phone number"
+        type="text"
+        name="phone"
+        id="phone"
+       register={register}
       />
 
       <Input
@@ -61,8 +68,7 @@ const SignupForm = () => {
         type="password"
         name="password"
         id="password"
-        value={formData.password}
-        onChange={onChange}
+        register={register}
       />
 
       <Input
@@ -71,8 +77,7 @@ const SignupForm = () => {
         type="password"
         name="confirmPassword"
         id="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={onChange}
+        register={register}
       />
 
       <Button label="Sign Up" type="submit" />
