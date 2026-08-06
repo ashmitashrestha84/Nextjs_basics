@@ -1,5 +1,5 @@
-import LoginForm from "@/components/client/form/login.form";
-import SignupForm from "@/components/client/form/signup.form";
+
+import RegisterForm from "@/components/client/form/register.form";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ const SignupPage = () => {
             Welcome! Please create your account.
           </p>
         </div>
-        <SignupForm />
+        <RegisterForm />
         <div className="-mt-2 flex flex-col gap-3 text-sm">
           <div className="text-right">
           </div>

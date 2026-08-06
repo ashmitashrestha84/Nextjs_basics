@@ -2,12 +2,13 @@
 
 import Button from "@/components/button";
 import Input from "@/components/common/input";
-import { SubmitEvent, useState } from "react";
+import { signupSchema } from "@/schemas/register.schemas";
+import { TSignup } from "@/types/register.types";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
-const SignupForm = () => {
-
-  const {register,handleSubmit} = useForm({
+const RegisterForm = () => {
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       full_name: "",
       email: "",
@@ -15,15 +16,10 @@ const SignupForm = () => {
       password: "",
       confirmPassword: "",
     },
+    resolver:yupResolver(signupSchema)
   });
 
-  const onSubmit = (data: {
-    full_name: string;
-    email: string;
-    phone: string;
-    password: string;
-    confirmPassword: string;
-  }) => {
+  const onSubmit = (data:TSignup) => {
     if (data.password !== data.confirmPassword) {
       console.log("Passwords do not match");
       return;
@@ -41,7 +37,6 @@ const SignupForm = () => {
         name="full_name"
         id="full_name"
         register={register}
-    
       />
 
       <Input
@@ -59,7 +54,7 @@ const SignupForm = () => {
         type="text"
         name="phone"
         id="phone"
-       register={register}
+        register={register}
       />
 
       <Input
@@ -85,4 +80,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default RegisterForm;

@@ -10,6 +10,7 @@ interface IProps {
   // onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // value: string;
   register: UseFormRegister<any>;
+  error?:string
 }
 
 const Input: FC<IProps> = ({
@@ -19,6 +20,7 @@ const Input: FC<IProps> = ({
   placeholder,
   type = "text",
   register,
+  error
 }) => {
   return (
     <div className="flex flex-col">
@@ -34,8 +36,12 @@ const Input: FC<IProps> = ({
         placeholder={placeholder}
         type={type}
         // value={value}
-        className=" w-full px-3 py-2.5 rounded-sm border border-border bg-card text-[12px] text-foreground placeholder:text-muted outline-none transition-colors duration-200 hover:border-primary-hover focus:border-primary"
-      />
+        className={`accent-primary py-3.5 border px-2 rounded-sm text-sm placeholder:text-sm
+          ${error ? "border-green-800 focus:outline-green-800":"border-primary-light focus:outline-primary-active"}
+        `}
+       />
+      <small
+      className="h-4 text-green-950">{error}</small>
     </div>
   );
 };
