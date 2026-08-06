@@ -1,14 +1,15 @@
 import { Metadata } from "next";
-import Image from "next/image";
+
 export const metadata: Metadata = {
-  title: "Ecommerce | Home",
+  title: "Ecommerce | About Us",
   description: "Ecommerce app",
 };
-
-export default function Home() {
+const AboutPage = () => {
   return (
     <main>
-      <h1>Hello world</h1>
+        <h1>About Page</h1>
     </main>
-  );
+  )
 }
+
+export default AboutPage
