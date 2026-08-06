@@ -1,4 +1,5 @@
 import LoginForm from "@/components/client/form/login.form";
+import SignupForm from "@/components/client/form/signup.form";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ const SignupPage = () => {
             Welcome! Please create your account.
           </p>
         </div>
-        <LoginForm />
+        <SignupForm />
         <div className="-mt-2 flex flex-col gap-3 text-sm">
           <div className="text-right">
           </div>

@@ -34,6 +34,7 @@ const Input: FC<IProps> = ({
         value={value}
         className=" w-full px-3 py-2.5 rounded-sm border border-border bg-card text-[16px] text-foreground placeholder:text-muted outline-none transition-colors duration-200 hover:border-primary-hover focus:border-primary"
       />
+      
     </div>
   );
 };
