@@ -1,65 +1,56 @@
-
 @import "tailwindcss";
 
 :root {
-  --background: #eef3f0;
-  --foreground: #17211d;
+  --background: #f8f5ed;
+  --foreground: #263229;
 
-  /* Green Color Palette */
-  --green-50: #f1f7f4;
-  --green-100: #dcebe5;
-  --green-200: #bfd9cf;
-  --green-300: #9fc2b5;
-  --green-400: #7fa99a;
-  --green-500: #6b9080;
-  /* Secondary Green */
+  /* Warm Olive Sage */
+  --primary: #486b4d;
+  --secondary: #8fa487;
 
-  --green-600: #527766;
-  --green-700: #3d5f50;
-  --green-800: #2b493d;
-  --green-900: #1f372f;
-
-  /* Primary Green */
-  --primary: #163a32;
-  --secondary: #6b9080;
+  /* Neutrals */
   --card: #ffffff;
-  --muted: #66736d;
+  --muted: #73776e;
+  --border: #d8d7ca;
+
+  /* Light Green */
+  --primary-light: #d9e3d2;
+  --primary-lighter: #eef2e8;
+
+  /* Primary States */
+  --primary-hover: #3d5d42;
+  --primary-active: #304b35;
+
+  /* Text */
+  --text-on-primary: #ffffff;
+
+  /* Warm Accent */
+  --accent: #c98f70;
+  --accent-light: #f1ddd0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* Primary Colors */
   --color-primary: var(--primary);
-  --color-primary-hover: var(--green-800);
-  --color-primary-active: var(--green-900);
-
-  /* Secondary Colors */
   --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--green-600);
-  --color-secondary-active: var(--green-700);
 
-  /* Light Colors */
-  --color-primary-light: var(--green-100);
-  --color-primary-lighter: var(--green-50);
-
-  /* Supporting Colors */
   --color-card: var(--card);
   --color-muted: var(--muted);
+  --color-border: var(--border);
 
-  /* Text Colors */
-  --color-text-on-primary: #ffffff;
-  --color-text-on-secondary: #ffffff;
+  --color-primary-light: var(--primary-light);
+  --color-primary-lighter: var(--primary-lighter);
 
-  /* Border Colors */
-  --color-border: var(--green-200);
-  --color-border-light: var(--green-100);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
 
-  /* Shadow */
-  --color-primary-shadow: var(--green-300);
+  --color-text-on-primary: var(--text-on-primary);
 
-  /* Fonts */
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
