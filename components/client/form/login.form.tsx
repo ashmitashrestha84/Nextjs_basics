@@ -11,9 +11,10 @@ import { login } from "@/api/auth.api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { All_Admin } from "@/types/enum.types";
 
 const LoginForm = () => {
-  const router=useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -28,16 +29,20 @@ const LoginForm = () => {
 
   const { data, isPending, error, mutate } = useMutation({
     mutationFn: login,
-    mutationKey:["login"],
+    mutationKey: ["login"],
     onSuccess: (data) => {
       console.log("on success");
       console.log(data);
-         toast.success(data?.message ?? "Login success" )
-        //  router.push()
-        router.replace("/")
+      toast.success(data?.message ?? "Login success");
+      //  router.push()
+      if (All_Admin.includes(data.data.role)) {
+        router.replace("/dashboard");
+      } else {
+        router.replace("/");
+      }
     },
-    onError: (error:Error) => {
-      toast.error(error?.message ?? "Login Failed" )
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Login Failed");
       console.log("on error");
       console.log(error);
     },
@@ -45,7 +50,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data: TLogin) => {
     mutate(data);
-    console.log("submit end")
+    console.log("submit end");
   };
 
   return (

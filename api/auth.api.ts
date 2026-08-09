@@ -1,13 +1,11 @@
 import { TLogin } from "@/types/auth.types";
 import { TSignup } from "@/types/register.types";
 import axios from "axios";
+import api from ".";
 
 export const login = async (data: TLogin) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8080/api/v1/auth/login",
-      data,
-    );
+    const response = await api.post("auth/login", data);
     console.log(response);
     return response.data;
   } catch (error: any) {
@@ -18,10 +16,7 @@ export const login = async (data: TLogin) => {
 
 export const signup = async (data: TSignup) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8080/api/v1/auth/register",
-      data,
-    );
+    const response = await api.post("auth/register", data);
     console.log(response);
     console.log(response);
     return response.data;
