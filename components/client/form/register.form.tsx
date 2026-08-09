@@ -8,8 +8,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useMutation } from "@tanstack/react-query";
+import { signup } from "@/api/auth.api";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -24,9 +29,25 @@ const RegisterForm = () => {
     },
     resolver: yupResolver(signupSchema),
   });
+  const { data, isPending, error, mutate } = useMutation({
+    mutationFn: signup,
+    mutationKey: ["signup"],
+    onSuccess: (data) => {
+      console.log("on success");
+      console.log(data);
+      toast.success(data?.message ?? "Account created");
+      router.replace("/login");
+    },
+    onError: (error: Error) => {
+      console.log("on error");
+      console.log(error);
+      toast.error(error?.message ?? "Signup Failed");
+    },
+  });
 
-  const onSubmit = (data: TSignup) => {
-    console.log("Submitted", data);
+  const onSubmit = async (data: TSignup) => {
+    mutate(data);
+    console.log("submit on");
   };
 
   return (

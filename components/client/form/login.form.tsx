@@ -7,8 +7,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { login } from "@/api/auth.api";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router=useRouter()
   const {
     register,
     handleSubmit,
@@ -21,8 +26,26 @@ const LoginForm = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data: TLogin) => {
-    console.log("form submitted", data);
+  const { data, isPending, error, mutate } = useMutation({
+    mutationFn: login,
+    mutationKey:["login"],
+    onSuccess: (data) => {
+      console.log("on success");
+      console.log(data);
+         toast.success(data?.message ?? "Login success" )
+        //  router.push()
+        router.replace("/")
+    },
+    onError: (error:Error) => {
+      toast.error(error?.message ?? "Login Failed" )
+      console.log("on error");
+      console.log(error);
+    },
+  });
+
+  const onSubmit = async (data: TLogin) => {
+    mutate(data);
+    console.log("submit end")
   };
 
   return (

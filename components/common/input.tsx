@@ -31,7 +31,7 @@ const Input: FC<IProps> = ({
     <div className="flex flex-col">
       <label className="text-[14px] font-normal" htmlFor={id}>
         {label}{" "}
-        {label !== "Phone" && <span className="text-red-500 ml-1">*</span>}
+        {label !== "Phone" && <span className="text-red-500 ml-1 text-xl">*</span>}
       </label>
 
       <div className="relative">

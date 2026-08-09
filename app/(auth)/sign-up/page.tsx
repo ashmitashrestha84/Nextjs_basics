@@ -1,13 +1,12 @@
 
 import RegisterForm from "@/components/client/form/register.form";
-import { Metadata } from "next";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Ecommerce | Sign Up",
-  description: "Ecommerce app",
-};
-
+// export const metadata: Metadata = {
+//   title: "Ecommerce | Sign Up",
+//   description: "Ecommerce app",
+// };
 const SignupPage = () => {
   return (
     <main className="min-h-130 bg-primary-lighter px-5 flex justify-center items-center">
