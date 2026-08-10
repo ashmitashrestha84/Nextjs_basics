@@ -1,14 +1,14 @@
 import * as yup from "yup";
 
-export const BrandSchema = yup.object({
+export const categorySchema = yup.object({
   brand_name: yup
     .string()
-    .min(4, "Brand name must be at least 4 characters long")
-    .required("Brand name is required"),
+    .min(4, "Category name must be at least 4 characters long")
+    .required("Category name is required"),
 
   description: yup
     .string()
-    .min(10, "Brand description must be at least 10 characters long")
+    .min(10, "Category description must be at least 10 characters long")
     .required("Description is required"),
 
   logo: yup

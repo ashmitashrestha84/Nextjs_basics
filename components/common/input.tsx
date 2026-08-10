@@ -8,7 +8,7 @@ interface IProps {
   label: string;
   name: string;
   id: string;
-  type: "text" | "password" | "email";
+  type: "text" | "password" | "email"|"file";
   placeholder: string;
   register: UseFormRegister<any>;
   error?: string;
