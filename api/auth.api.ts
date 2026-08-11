@@ -3,6 +3,7 @@ import { TSignup } from "@/types/register.types";
 import axios from "axios";
 import api from ".";
 import { TBrand } from "@/types/brand.types";
+import { TCategory } from "@/types/category.types";
 
 export const login = async (data: TLogin) => {
   try {
@@ -40,7 +41,7 @@ export const brand = async (data: TBrand) => {
 
 export const category = async (data: TCategory) => {
   try {
-    const response = await api.post("brands", data);
+    const response = await api.post("categories", data);
     console.log(response);
     return response.data;
   } catch (error: any) {

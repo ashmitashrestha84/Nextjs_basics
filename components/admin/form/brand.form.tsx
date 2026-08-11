@@ -44,8 +44,8 @@ const BrandForm = () => {
   });
 
   const onSubmit = async (data: TBrand) => {
-    mutate(data);
     const logoFile = data.logo[0];
+    mutate(data);
   };
   return (
     <form

@@ -1,3 +1,4 @@
+import CategoriesList from "@/components/landing/category";
 import Footer from "@/components/landing/footer";
 import Header from "@/components/landing/header";
 import Navbar from "@/components/landing/navbar";
@@ -14,6 +15,7 @@ export default function Home() {
     <main>
       <Navbar/>
       <Header/>
+      <CategoriesList/>
       <Footer/>
     </main>
   );

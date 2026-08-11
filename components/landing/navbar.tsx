@@ -44,7 +44,7 @@ const Navbar = () => {
 
             <li>
               <Link
-                href="/categories"
+                href="/category"
                 className="font-sans text-sm font-normal text-gray-300 transition hover:text-white"
               >
                 Categories
@@ -78,10 +78,10 @@ const Navbar = () => {
         <button>
           <FiHeart className="text-gray-300 text-xl" />
         </button>
-        <button className="bg-green-800 rounded-2xl px-4 py-2 w-22 h-9 flex justify-center items-center gap-2 mb-2">
-          <FiShoppingCart className="text-white text-s" />
-          <p className="text-white">Cart</p>
-        </button>
+          <Link href="/carts" className="bg-green-800 rounded-2xl px-4 py-2 w-22 h-9 flex justify-center items-center gap-2 mb-2">
+            <FiShoppingCart className="text-white text-s" />
+            <p className="text-white">Cart</p>
+          </Link>
       </div>
     </div>
   );

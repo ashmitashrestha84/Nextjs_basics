@@ -44,8 +44,8 @@ const CategoryForm = () => {
   });
 
   const onSubmit = async (data: TCategory) => {
+    const logoFile = Array.from(data.logo);
     mutate(data);
-    const logoFile = data.logo[0];
   };
   return (
     <form
@@ -54,7 +54,7 @@ const CategoryForm = () => {
       className="flex flex-col gap-3"
     >
       <Input
-        label="Brand Name"
+        label="Category Name"
         placeholder="Enter category name"
         type="text"
         name="brand_name"
@@ -81,6 +81,7 @@ const CategoryForm = () => {
         id="logo"
         register={register}
         error={errors.logo?.message}
+        multiple
       />
 
       <Button label="Submit" type="submit" />

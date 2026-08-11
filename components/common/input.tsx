@@ -8,10 +8,12 @@ interface IProps {
   label: string;
   name: string;
   id: string;
-  type: "text" | "password" | "email"|"file";
+  type: "text" | "password" | "email" | "file";
   placeholder: string;
   register: UseFormRegister<any>;
   error?: string;
+  multiple?: boolean;
+  className?: string;
 }
 
 const Input: FC<IProps> = ({
@@ -22,6 +24,8 @@ const Input: FC<IProps> = ({
   type = "text",
   register,
   error,
+  multiple,
+  className,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +35,9 @@ const Input: FC<IProps> = ({
     <div className="flex flex-col">
       <label className="text-[14px] font-normal" htmlFor={id}>
         {label}{" "}
-        {label !== "Phone" && <span className="text-red-500 ml-1 text-xl">*</span>}
+        {label !== "Phone" && (
+          <span className="text-red-500 ml-1 text-xl">*</span>
+        )}
       </label>
 
       <div className="relative">
@@ -40,14 +46,27 @@ const Input: FC<IProps> = ({
           id={id}
           placeholder={placeholder}
           type={inputType}
-          className={`w-full accent-primary py-3.5 px-2 rounded-sm text-sm
-            border placeholder:text-sm outline-none
+          multiple={multiple}
+          className={`w-full py-3.5 px-2 rounded-sm text-sm
+                border placeholder:text-sm outline-none
+                file:mr-25
+                file:rounded-full
+                file:border-0
+                file:bg-violet-50
+                file:px-4
+                file:py-2
+                file:text-sm
+                file:font-semibold
+                file:text-violet-700
+                hover:file:bg-violet-100
+
             ${
               error
                 ? "border-red-500 focus:border-red-500"
                 : "border-primary-light focus:border-primary-active"
             }
             ${type === "password" ? "pr-10" : ""}
+            ${className}
           `}
         />
 

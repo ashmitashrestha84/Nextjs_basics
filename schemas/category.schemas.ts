@@ -17,6 +17,6 @@ export const categorySchema = yup.object({
     .test(
       "fileRequired",
       "Logo is required",
-      (value) => value instanceof FileList && value.length > 0,
+      (value) => !!value && value.length > 0
     ),
 });
