@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Input from "@/components/common/input";
 import Button from "@/components/button";
-import { TCategory } from "@/types/category.types";
+import { TCategory } from "@/types/Acategory.types";
 import { categorySchema } from "@/schemas/category.schemas";
 import { category } from "@/api/auth.api";
 
@@ -22,7 +22,7 @@ const CategoryForm = () => {
     formState: { errors },
   } = useForm<TCategory>({
     defaultValues: {
-      brand_name: "",
+      name: "",
       description: "",
     },
     resolver: yupResolver(categorySchema),
@@ -57,10 +57,10 @@ const CategoryForm = () => {
         label="Category Name"
         placeholder="Enter category name"
         type="text"
-        name="brand_name"
-        id="brand_name"
+        name="name"
+        id="name"
         register={register}
-        error={errors.brand_name?.message}
+        error={errors.name?.message}
       />
 
       <Input
@@ -81,7 +81,6 @@ const CategoryForm = () => {
         id="logo"
         register={register}
         error={errors.logo?.message}
-        multiple
       />
 
       <Button label="Submit" type="submit" />

@@ -2,8 +2,8 @@ import { TLogin } from "@/types/auth.types";
 import { TSignup } from "@/types/register.types";
 import axios from "axios";
 import api from ".";
-import { TBrand } from "@/types/brand.types";
-import { TCategory } from "@/types/category.types";
+import { TBrand } from "@/types/Abrand.types";
+import { TCategory } from "@/types/Acategory.types";
 
 export const login = async (data: TLogin) => {
   try {
@@ -48,7 +48,7 @@ export const category = async (data: TCategory) => {
     console.log(error);
     throw error.response.data;
   }
-}
+};
 
 // export const product = async (data: TBrand) => {
 //   try {

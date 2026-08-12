@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Form, useForm } from "react-hook-form";
-import { TBrand } from "@/types/brand.types";
+import { TBrand } from "@/types/Abrand.types";
 import { BrandSchema } from "@/schemas/brand.schemas";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
