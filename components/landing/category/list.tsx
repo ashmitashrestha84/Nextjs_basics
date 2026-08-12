@@ -5,11 +5,21 @@ import { getAllCategories } from "@/api/category.api";
 import { ICategories } from "@/types/categories.types";
 
 const CategoryList = () => {
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, isSuccess, isError, error } = useQuery({
     queryFn: getAllCategories,
     queryKey: ["get-all-category"],
   });
   console.log(isLoading, data);
+  if (isLoading) {
+    console.log("is Loading....");
+  }
+  if (isSuccess) {
+    console.log("sucess:", data);
+  }
+
+  if (isError) {
+    console.log("Error:", error);
+  }
   return (
     <div className="grid grid-cols-3 gap-2 mt-5">
       {data?.data?.map((category: ICategories) => (
