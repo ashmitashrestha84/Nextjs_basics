@@ -9,9 +9,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { brand } from "@/api/auth.api";
 import Input from "@/components/common/input";
 import Button from "@/components/button";
+import { brand } from "@/api/client.api";
 
 const BrandForm = () => {
   const router = useRouter();

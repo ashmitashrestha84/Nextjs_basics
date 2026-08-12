@@ -11,7 +11,8 @@ import Input from "@/components/common/input";
 import Button from "@/components/button";
 import { TCategory } from "@/types/Acategory.types";
 import { categorySchema } from "@/schemas/category.schemas";
-import { category } from "@/api/auth.api";
+import { category } from "@/api/client.api";
+
 
 const CategoryForm = () => {
   const router = useRouter();

@@ -1,9 +1,7 @@
 import { TLogin } from "@/types/auth.types";
 import { TSignup } from "@/types/register.types";
-import axios from "axios";
 import api from ".";
-import { TBrand } from "@/types/Abrand.types";
-import { TCategory } from "@/types/Acategory.types";
+
 
 export const login = async (data: TLogin) => {
   try {
@@ -27,36 +25,3 @@ export const signup = async (data: TSignup) => {
     throw error.response.data;
   }
 };
-
-export const brand = async (data: TBrand) => {
-  try {
-    const response = await api.post("brands", data);
-    console.log(response);
-    return response.data;
-  } catch (error: any) {
-    console.log(error);
-    throw error.response.data;
-  }
-};
-
-export const category = async (data: TCategory) => {
-  try {
-    const response = await api.post("categories", data);
-    console.log(response);
-    return response.data;
-  } catch (error: any) {
-    console.log(error);
-    throw error.response.data;
-  }
-};
-
-// export const product = async (data: TBrand) => {
-//   try {
-//     const response = await api.post("brands", data);
-//     console.log(response);
-//     return response.data;
-//   } catch (error: any) {
-//     console.log(error);
-//     throw error.response.data;
-//   }
-// }
