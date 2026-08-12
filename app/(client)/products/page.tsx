@@ -1,10 +1,10 @@
+import ProductList from "@/components/landing/product"
 
 
 const ProductPage = () => {
   return (
-    <main>
-        <h1>All products</h1>
-    </main>
+
+        <ProductList/>
   )
 }
 

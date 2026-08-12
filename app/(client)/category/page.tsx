@@ -1,8 +1,9 @@
+import CategoriesList from "@/components/landing/category"
 
 
 const CategoryPage = () => {
   return (
-    <div> Category page</div>
+    <CategoriesList/>
   )
 }
 

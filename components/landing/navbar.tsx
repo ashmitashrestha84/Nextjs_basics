@@ -17,15 +17,6 @@ const Navbar = () => {
           <ul className="flex flex-row items-center gap-6">
             <li>
               <Link
-                href="/newarrivals"
-                className="font-sans text-sm font-normal text-gray-300 transition hover:text-white"
-              >
-                New Arrivals
-              </Link>
-            </li>
-
-            <li>
-              <Link
                 href="/products"
                 className="font-sans text-sm font-normal text-gray-300 transition hover:text-white"
               >

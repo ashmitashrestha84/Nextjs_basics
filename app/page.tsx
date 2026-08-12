@@ -2,6 +2,7 @@ import CategoriesList from "@/components/landing/category";
 import Footer from "@/components/landing/footer";
 import Header from "@/components/landing/header";
 import Navbar from "@/components/landing/navbar";
+import ProductsList from "@/components/landing/product";
 import { Metadata } from "next";
 import Image from "next/image";
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default function Home() {
     <main>
       <Navbar/>
       <Header/>
+      <ProductsList/>
       <CategoriesList/>
       <Footer/>
     </main>
