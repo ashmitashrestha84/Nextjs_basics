@@ -1,12 +1,12 @@
 "use client";
-import { getAllProducts } from "@/api/featuredproduct.api";
+import { getFeaturedAllProducts } from "@/api/featuredproduct.api";
 import { IProducts } from "@/types/products.types";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./card";
 
 const ProductList = () => {
   const { isLoading, data, isSuccess, isError, error } = useQuery({
-    queryFn: getAllProducts,
+    queryFn: getFeaturedAllProducts,
     queryKey: ["get-all-featured-product"],
   });
 
@@ -17,7 +17,7 @@ const ProductList = () => {
       {isLoading && <p>Loading Products....</p>}
       {isError && <p>Failed to load products</p>}
       <div className="grid grid-cols-4 gap-2 mt-5">
-        {data?.data?.slice(0, 4).map((product: IProducts) => (
+        {data?.data?.map((product: IProducts) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>

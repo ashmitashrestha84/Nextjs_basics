@@ -1,5 +1,5 @@
 "use client";
-import { getAllProducts } from "@/api/featuredproduct.api";
+import { getAllProducts } from "@/api/allproduct.api";
 import { IProducts } from "@/types/products.types";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./card";
