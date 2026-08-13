@@ -4,7 +4,7 @@ import Header from "@/components/admin/layout/header";
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <main className="flex min-h-screen">
-      <section className="w-70 border-r border-gray-500 pt-10  bg-green-950 min-h-screen" >
+      <section className="w-70 border-r border-gray-500 pt-10  bg-green-950 min-h-screen flex justify-between items-start" >
         <Sidebar />
       </section>
 

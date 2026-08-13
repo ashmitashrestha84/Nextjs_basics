@@ -1,4 +1,3 @@
-import { ImageResponse } from "next/server";
 import * as yup from "yup";
 
 export const productSchema = yup.object({

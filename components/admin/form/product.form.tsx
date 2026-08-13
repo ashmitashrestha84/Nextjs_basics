@@ -1,3 +1,4 @@
+"use client"
 import { signup } from "@/api/auth.api";
 import { product } from "@/api/client.api";
 import Button from "@/components/button";

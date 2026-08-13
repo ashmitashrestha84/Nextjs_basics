@@ -9,7 +9,7 @@ import { CiShoppingTag } from "react-icons/ci";
 
 const Sidebar = () => {
   return (
-    <main className="flex h-screen w-full shrink-0 flex-col bg-green-950 text-white">
+    <main className="flex h-full w-full shrink-0 flex-col bg-green-950 text-white ">
       
       {/* Logo */}
       <div className="flex items-center gap-3 border-b border-black px-4 py-3">
@@ -65,7 +65,7 @@ const Sidebar = () => {
         </Link>
       </nav>
 
-      <div className="mt-auto flex w-full items-center justify-baseline border-t border-black px-1 pt-4">
+      <div className="mt-auto flex w-full items-center justify-baseline border-t border-black px-1 pt-4 pb-4">
     
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-300 text-lg font-medium">

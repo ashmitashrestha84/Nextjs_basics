@@ -5,12 +5,12 @@ interface IProps {
   category: ICategories;
 }
 
-const CategoryCard = ({ category: { name, image, description } }:IProps) => {
+const CategoryCard = ({ category: { name, logo, description } }:IProps) => {
   return (
     <div className="flex border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-primary transition-all">
       <div className=" h-12 w-12 rounded-sm overflow-clip shrink-0">
         <Image
-          src={"/images.png"}
+          src={logo.path}
           alt={name + "-" + "image"}
           className="h-full w-full"
           height={800}

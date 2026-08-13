@@ -1,3 +1,4 @@
+import { ICategories } from "./categories.types";
 import { Image } from "./image.types";
 
 export interface IProducts {
@@ -6,8 +7,8 @@ export interface IProducts {
   price: number;
   description: string;
   product_image: Image;
-  category: string;
-  brand: string;
+  category: ICategories;
+  brand: ICategories;
   images?: Image[];
   new_arrival: boolean;
   is_featured: boolean;
