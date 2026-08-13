@@ -4,7 +4,7 @@ import { FiSearch, FiHeart, FiShoppingCart } from "react-icons/fi";
 
 const Navbar = () => {
   return (
-    <div className="sticky top-0 left-0 z-50 bg-green-950 flex justify-start items-center w-full h-20 gap-30 px-10 border-b border-green-900">
+    <div className="sticky top-0 left-0 z-50 bg-green-950 flex justify-start items-center w-full h-20 gap-50 px-10 border-b border-green-900">
       <div className="flex gap-2">
         <h1 className="font-(--font-fraunces) text-4xl tracking-wide text-white">
           Botaniva

@@ -10,7 +10,7 @@ const ProductCard = ({
   product: { name, product_image, price, description, category, brand,_id },
 }: IProps) => {
   return (
-    <Link href={`/products/${_id}?q={name}&d=${description}`}>
+    <Link href={`/products/${_id}`}>
     <article className="flex flex-col border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-primary transition-all">
       <div className=" h-70 w-full rounded-sm overflow-clip shrink-0">
         <Image
@@ -37,7 +37,8 @@ const ProductCard = ({
       
       <div className="w-full">
         <button className="h-10 w-full max-w-900 bg-green-950 text-white rounded-2xl">
-          {/* <Link href={`/products/${_id}?q={name}&d=${description}`}> */}
+          {/* <Link href={`/products/${_id}`}> */}
+           {/* <Link href={`/products/${_id}?q=${name}&d=${description}`}></Link> */}
             <span>View Detail</span>
           {/* </Link> */}
         </button>
