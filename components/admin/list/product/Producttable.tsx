@@ -7,35 +7,35 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "@/api/category.api";
-import { ICategories } from "@/types/categories.types";
 
+import { IProducts } from "@/types/products.types";
+import { getAllProducts } from "@/api/allproduct.api";
 
-interface CategoryTableProps {
+interface ProductTableProps {
   isUpdateMode: boolean;
-  onSelectProduct: (product: ICategories) => void;
-  selectedProduct: ICategories | null;
+  onSelectProduct: (product: IProducts) => void;
+  selectedProduct: IProducts | null;
 }
 
-const CategoryTable = ({
+const ProductTable = ({
   isUpdateMode,
   onSelectProduct,
-}: CategoryTableProps) => {
+}: ProductTableProps) => {
   const { data, isLoading, isError } = useQuery({
-    queryFn: getAllCategories,
-    queryKey: ["get-all-category"],
+    queryFn: getAllProducts,
+    queryKey: ["get-all-products"],
   });
 
-  const categories: ICategories[] = data?.data ?? [];
+  const products: IProducts[] = data?.data ?? [];
 
-  const columns: ColumnDef<ICategories>[] = [
+  const columns: ColumnDef<IProducts>[] = [
     {
       id: "image",
       header: "Image",
       cell: ({ row }) => (
         <div className="h-16 w-16 overflow-hidden rounded-md">
           <img
-            src={row.original.logo?.path}
+            src={row.original.product_image?.path}
             alt={row.original.name}
             className="h-full w-full object-cover"
           />
@@ -44,7 +44,7 @@ const CategoryTable = ({
     },
     {
       accessorKey: "name",
-      header: "category",
+      header: "Product",
       cell: ({ row }) => {
         if (isUpdateMode) {
           return (
@@ -66,25 +66,47 @@ const CategoryTable = ({
       },
     },
     {
+      accessorKey: "price",
+      header: "Price",
+    },
+    {
       accessorKey: "description",
       header: "Description",
+    },
+    {
+      id: "category",
+      header: "Category",
+      accessorFn: (row) => row.category?.name,
+    },
+    {
+      id: "brand",
+      header: "Brand",
+      accessorFn: (row) => row.brand?.name,
+    },
+    {
+      accessorKey: "new_arrival",
+      header: "New Arrivals",
+    },
+    {
+      accessorKey: "is_featured",
+      header: "Featured",
     },
   ];
 
   const table = useReactTable({
-  data:categories,
+    data: products,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
   if (isLoading) {
-    return <div className="p-6 text-center">Loading category...</div>;
+    return <div className="p-6 text-center">Loading products...</div>;
   }
 
   if (isError) {
     return (
       <div className="p-6 text-center text-red-500">
-        Failed to load category.
+        Failed to load products.
       </div>
     );
   }
@@ -136,4 +158,4 @@ const CategoryTable = ({
   );
 };
 
-export default CategoryTable;
+export default ProductTable;

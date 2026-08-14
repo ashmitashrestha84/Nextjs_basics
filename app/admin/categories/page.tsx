@@ -3,10 +3,16 @@
 import { useState } from "react";
 import { FiPlus, FiEdit, FiTrash2, FiX } from "react-icons/fi";
 import CategoryForm from "@/components/admin/form/category.form";
+import CategoryTable from "@/components/admin/list/category/page";
+import { ICategories } from "@/types/categories.types";
 
 const CategoryPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
 
+  const [selectedProduct, setSelectedProduct] = useState<ICategories | null>(
+    null,
+  );
   return (
     <main className="min-h-screen bg-primary-lighter p-5">
       <div className="flex items-center justify-between">
@@ -63,7 +69,9 @@ const CategoryPage = () => {
             </button>
 
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Create Category</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Create Category
+              </h2>
 
               <p className="mt-1 text-sm text-gray-500">
                 Please enter the category details
@@ -73,6 +81,11 @@ const CategoryPage = () => {
           </div>
         </div>
       )}
+      <CategoryTable
+        isUpdateMode={isUpdateMode}
+        onSelectProduct={setSelectedProduct}
+        selectedProduct={selectedProduct}
+      />
     </main>
   );
 };

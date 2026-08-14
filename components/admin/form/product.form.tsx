@@ -10,12 +10,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import ProductImageCarousel from "./productimagecarosel";
 
 const ProductForm = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<TProduct>({
     defaultValues: {
@@ -29,6 +31,15 @@ const ProductForm = () => {
     },
     resolver: yupResolver(productSchema),
   });
+  const images = watch("images");
+  console.log("other images:", images);
+
+  const carouselImages: string[] = [
+    ...(images
+      ? Array.from(images).map((image) => URL.createObjectURL(image))
+      : []),
+  ];
+
   const { data, isPending, error, mutate } = useMutation({
     mutationFn: product,
     mutationKey: [signup],
@@ -59,7 +70,7 @@ const ProductForm = () => {
     }
     formData.append("is_featured", String(data.is_featured));
     formData.append("new_arrival", String(data.new_arrival));
-    mutate(formData)
+    mutate(formData);
   };
   return (
     <form
@@ -67,6 +78,7 @@ const ProductForm = () => {
       noValidate
       className="flex flex-col gap-3"
     >
+      <ProductImageCarousel images={carouselImages} />
       <Input
         label="Product Name"
         placeholder="Enter product name"
@@ -122,6 +134,7 @@ const ProductForm = () => {
         type="file"
         name="images"
         id="images"
+        multiple
         register={register}
         error={errors.images?.message}
       />
