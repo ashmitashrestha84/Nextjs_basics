@@ -8,28 +8,29 @@ import {
 } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
 import { IBrand } from "@/types/brand.types";
+import { getAllBrands } from "@/api/brand.api";
 
 
 
 
 interface BrandTableProps {
   isUpdateMode: boolean;
-  onSelectProduct: (product: IBrand) => void;
-  selectedProduct: IDBTransactionMode | null;
+  onSelectBrand: (brand: IBrand) => void;
+  selectedBrand: IBrand | null;
 }
 
-const CategoryTable = ({
+const BrandTable = ({
   isUpdateMode,
-  onSelectProduct,
+  onSelectBrand,
 }: BrandTableProps) => {
   const { data, isLoading, isError } = useQuery({
-    queryFn: ,
-    queryKey: ["get-all-category"],
+    queryFn: getAllBrands,
+    queryKey: ["get-all-brand"],
   });
 
-  const categories: ICategories[] = data?.data ?? [];
+  const brand: IBrand[] = data?.data ?? [];
 
-  const columns: ColumnDef<ICategories>[] = [
+  const columns: ColumnDef<IBrand>[] = [
     {
       id: "image",
       header: "Image",
@@ -45,7 +46,7 @@ const CategoryTable = ({
     },
     {
       accessorKey: "name",
-      header: "category",
+      header: "brand",
       cell: ({ row }) => {
         if (isUpdateMode) {
           return (
@@ -54,7 +55,7 @@ const CategoryTable = ({
               defaultValue={row.original.name}
               className="w-full rounded border px-2 py-1"
               onChange={(e) => {
-                onSelectProduct({
+                onSelectBrand({
                   ...row.original,
                   name: e.target.value,
                 });
@@ -73,7 +74,7 @@ const CategoryTable = ({
   ];
 
   const table = useReactTable({
-  data:categories,
+  data:brand,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -117,7 +118,7 @@ const CategoryTable = ({
               key={row.id}
               onClick={() => {
                 if (isUpdateMode) {
-                  onSelectProduct(row.original);
+                  onSelectBrand(row.original);
                 }
               }}
               className={`border-b hover:bg-gray-50 ${
@@ -137,4 +138,4 @@ const CategoryTable = ({
   );
 };
 
-export default CategoryTable;
+export default BrandTable;

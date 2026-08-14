@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { FiPlus, FiEdit, FiTrash2, FiX } from "react-icons/fi";
 import BrandForm from "@/components/admin/form/brand.form";
+import BrandTable from "@/components/admin/list/brand/page";
+import { IBrand } from "@/types/brand.types";
 
 const BrandPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+
+  const [selectedBrand, setSelectedBrand] = useState<IBrand | null>(null);
 
   return (
     <main className="min-h-screen bg-primary-lighter p-5">
@@ -28,14 +33,20 @@ const BrandPage = () => {
 
           <button
             type="button"
+            onClick={() => setIsUpdateMode(true)}
             className="flex items-center gap-2 rounded-lg border border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
           >
             <FiEdit size={17} />
             Update
           </button>
+
           <button
             type="button"
-            className="flex items-center gap-2 rounded-lg border  border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
+            onClick={() => {
+              setIsUpdateMode(false);
+              setSelectedBrand(null);
+            }}
+            className="flex items-center gap-2 rounded-lg border border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
           >
             <FiX size={17} />
             Clear
@@ -69,10 +80,17 @@ const BrandPage = () => {
                 Please enter the brand details
               </p>
             </div>
+
             <BrandForm />
           </div>
         </div>
       )}
+
+      <BrandTable
+        isUpdateMode={isUpdateMode}
+        onSelectBrand={setSelectedBrand}
+        selectedBrand={selectedBrand}
+      />
     </main>
   );
 };

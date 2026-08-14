@@ -13,13 +13,13 @@ import { ICategories } from "@/types/categories.types";
 
 interface CategoryTableProps {
   isUpdateMode: boolean;
-  onSelectProduct: (product: ICategories) => void;
-  selectedProduct: ICategories | null;
+  onSelectCategory: (product: ICategories) => void;
+  selectedCategory: ICategories | null;
 }
 
 const CategoryTable = ({
   isUpdateMode,
-  onSelectProduct,
+  onSelectCategory,
 }: CategoryTableProps) => {
   const { data, isLoading, isError } = useQuery({
     queryFn: getAllCategories,
@@ -53,7 +53,7 @@ const CategoryTable = ({
               defaultValue={row.original.name}
               className="w-full rounded border px-2 py-1"
               onChange={(e) => {
-                onSelectProduct({
+                onSelectCategory({
                   ...row.original,
                   name: e.target.value,
                 });
@@ -116,7 +116,7 @@ const CategoryTable = ({
               key={row.id}
               onClick={() => {
                 if (isUpdateMode) {
-                  onSelectProduct(row.original);
+                  onSelectCategory(row.original);
                 }
               }}
               className={`border-b hover:bg-gray-50 ${

@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { FiHeart } from "react-icons/fi";
 import { IoHeartOutline } from "react-icons/io5";
 
 interface IProps {
@@ -13,33 +14,30 @@ interface IProps {
 const ProductCard = ({
   product: { name, product_image, price, description, category, brand, _id },
 }: IProps) => {
+  const isAdded=true;
   const { mutate, isPending} = useMutation({
     mutationFn: postAllWishlist,
     onSuccess:(response)=>{
       toast.success(response.message?? "product added to wishlist")
     },
     onError:(error:any)=>{
-      toast.success(error.message?? "something went wrong")
+      toast.error(error.message?? "something went wrong")
     }
   });
-  // const handleWishlist = (e: React.MouseEvent, productId: string) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
 
-  //   addToWishlist(productId);
-  // };
   return (
-    <Link href={`/products/${_id}`}>
+
       <article className="flex flex-col border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-green-100 transition-all">
         <button
         disabled={isPending}
+        title="add to wishlist"
           onClick={(e)=>{
             e.stopPropagation()
             mutate(_id)
           }}
-          className="absolute right-3 top-3 z-10 rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
+          className="absolute right-3 top-3 z-10 rounded-full p-2 shadow-md bg-red-200"
         >
-          <IoHeartOutline className="text-xl text-gray-700" />
+          {isAdded ?<IoHeartOutline className="text-xl text-white " /> : <FiHeart className="text-xl text-white " />}
         </button>
         <div className=" h-70 w-full rounded-sm overflow-clip shrink-0">
           <Image
@@ -72,14 +70,13 @@ const ProductCard = ({
 
         <div className="w-full">
           <button className="h-10 w-full max-w-900 bg-green-950 text-white rounded-2xl">
-            {/* <Link href={`/products/${_id}`}> */}
+            <Link href={`/products/${_id}`}>
             {/* <Link href={`/products/${_id}?q=${name}&d=${description}`}></Link> */}
             <span>View Detail</span>
-            {/* </Link> */}
+            </Link>
           </button>
         </div>
       </article>
-    </Link>
   );
 };
 

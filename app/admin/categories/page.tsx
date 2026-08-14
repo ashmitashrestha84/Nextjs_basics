@@ -10,7 +10,7 @@ const CategoryPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
-  const [selectedProduct, setSelectedProduct] = useState<ICategories | null>(
+  const [selectedCategory, setSelectedCategory] = useState<ICategories | null>(
     null,
   );
   return (
@@ -83,8 +83,8 @@ const CategoryPage = () => {
       )}
       <CategoryTable
         isUpdateMode={isUpdateMode}
-        onSelectProduct={setSelectedProduct}
-        selectedProduct={selectedProduct}
+        onSelectCategory={setSelectedCategory}
+        selectedCategory={selectedCategory}
       />
     </main>
   );
