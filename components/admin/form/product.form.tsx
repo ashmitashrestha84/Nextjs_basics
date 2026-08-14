@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { signup } from "@/api/auth.api";
 import { product } from "@/api/client.api";
 import Button from "@/components/button";
@@ -44,10 +44,22 @@ const ProductForm = () => {
       toast.error(error?.message ?? "Brand Register Failed");
     },
   });
+  const formData = new FormData();
   const onSubmit = async (data: TProduct) => {
-    const productImage = Array.from(data.product_image);
-    const additionalImages = data.images ? Array.from(data.images) : [];
-    mutate(data);
+    formData.append("name", data.name);
+    formData.append("price", String(data.price));
+    formData.append("description", data.description);
+    formData.append("product_image", data.product_image[0]);
+    formData.append("category", data.category);
+    formData.append("brand", data.brand);
+    if (data.images?.length) {
+      for (const image of data.images) {
+        formData.append("images", image);
+      }
+    }
+    formData.append("is_featured", String(data.is_featured));
+    formData.append("new_arrival", String(data.new_arrival));
+    mutate(formData)
   };
   return (
     <form
@@ -115,19 +127,19 @@ const ProductForm = () => {
       />
       <Input
         label="New Arrivals"
-        type="checkbox"
+        type="text"
         name="new_arrival"
         id="new_arrival"
         register={register}
         error={errors.new_arrival?.message}
       />
       <Input
-        label="New Arrivals"
-        type="checkbox"
-        name="new_arrival"
-        id="new_arrival"
+        label="is Featured"
+        type="text"
+        name="is_featured"
+        id="is_featured"
         register={register}
-        error={errors.new_arrival?.message}
+        error={errors.is_featured?.message}
       />
 
       <Button label="Submit" type="submit" />

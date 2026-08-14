@@ -8,6 +8,7 @@ import {
   IoShieldCheckmarkOutline,
   IoStar,
 } from "react-icons/io5";
+import Quantity from "./quantity";
 
 const ProductDetailPage = async ({
   params,
@@ -26,19 +27,6 @@ const ProductDetailPage = async ({
   const responseData = await response.json();
   const product = responseData.data;
 
-  //   const [count, setCount] = useState(0);
-  //   const onIncrement = () => {
-  //     setCount((prev) => {
-  //       return prev + 1;
-  //     });
-  //   };
-  //   const onDecrement = () => {
-  //     if (count > 0) {
-  //       setCount((prev) => {
-  //         return prev - 1;
-  //       });
-  //     }
-  //   };
   return (
     <article className="grid grid-cols-2">
       <div className="flex flex-col max-w-120 h-fit gap-2 ml-20 rounded-xl justify-center items-center">
@@ -140,22 +128,10 @@ const ProductDetailPage = async ({
         <div>
           <p className="mb-2 text-sm font-semibold text-gray-700">Quantity</p>
 
-          <div className="flex items-center gap-0">
-            <button className="h-12 w-12 rounded-l-lg border border-gray-300 bg-white text-lg hover:bg-gray-50">
-              -
-            </button>
-
-            <div className="flex h-12 w-14 items-center justify-center border-y border-gray-300 bg-white">
-              1
-            </div>
-
-            <button className="h-12 w-12 rounded-r-lg border border-gray-300 bg-white text-lg hover:bg-gray-50">
-              +
-            </button>
-          </div>
+          <Quantity />
         </div>
 
-        {/* Buttons */}
+  
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <button className="flex h-14 items-center justify-center gap-2 rounded-xl bg-green-950 font-semibold text-white transition hover:bg-green-900">
             <IoCartOutline className="text-xl" />

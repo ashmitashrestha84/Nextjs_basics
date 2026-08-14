@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AiOutlineBell, AiOutlineMenu } from "react-icons/ai";
 import { FiArrowLeft } from "react-icons/fi";
 
@@ -36,13 +37,14 @@ const Header = () => {
           <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-orange-200" />
         </button>
 
-        <button
+        <Link
+          href="/"
           type="button"
           className="flex h-12 items-center gap-2 rounded-xl border border-gray-300 bg-white px-5 text-[16px] text-green-800 hover:bg-white"
         >
           <FiArrowLeft size={17} />
           <span>Store</span>
-        </button>
+        </Link>
 
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-300 text-lg font-semibold text-white">
           A

@@ -43,10 +43,12 @@ const CategoryForm = () => {
       toast.error(error?.message ?? "Brand Register Failed");
     },
   });
-
+const formData=new FormData()
   const onSubmit = async (data: TCategory) => {
-    const logoFile = Array.from(data.logo);
-    mutate(data);
+    formData.append("name",data.name)
+    formData.append("description",data.description)
+    formData.append("logo",data.logo[0])
+    mutate(formData);
   };
   return (
     <form
@@ -84,7 +86,7 @@ const CategoryForm = () => {
         error={errors.logo?.message}
       />
 
-      <Button label="Submit" type="submit" />
+      <Button label="Submit" type="submit"  />
     </form>
   );
 };

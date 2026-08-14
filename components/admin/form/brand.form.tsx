@@ -22,7 +22,7 @@ const BrandForm = () => {
     formState: { errors },
   } = useForm<TBrand>({
     defaultValues: {
-      brand_name: "",
+      name: "",
       description: "",
     },
     resolver: yupResolver(BrandSchema),
@@ -42,10 +42,13 @@ const BrandForm = () => {
       toast.error(error?.message ?? "Brand Register Failed");
     },
   });
-
+  const formData = new FormData();
   const onSubmit = async (data: TBrand) => {
-    const logoFile = data.logo[0];
-    mutate(data);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("logo", data.logo[0]);
+    mutate(formData);
+    router.push("admin/list/brand")
   };
   return (
     <form
@@ -57,10 +60,10 @@ const BrandForm = () => {
         label="Brand Name"
         placeholder="Enter brand name"
         type="text"
-        name="brand_name"
-        id="brand_name"
+        name="name"
+        id="name"
         register={register}
-        error={errors.brand_name?.message}
+        error={errors.name?.message}
       />
 
       <Input

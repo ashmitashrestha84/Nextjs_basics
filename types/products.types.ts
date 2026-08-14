@@ -1,3 +1,4 @@
+import { IBrand } from "./brand.types";
 import { ICategories } from "./categories.types";
 import { Image } from "./image.types";
 
@@ -8,8 +9,8 @@ export interface IProducts {
   description: string;
   product_image: Image;
   category: ICategories;
-  brand: ICategories;
-  images?: Image[];
+  brand: IBrand;
+  images: Image[];
   new_arrival: boolean;
   is_featured: boolean;
 }

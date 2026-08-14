@@ -1,6 +1,4 @@
 
-
-
 const BrandCPage = () => {
   return (
     <div> Brand page</div>

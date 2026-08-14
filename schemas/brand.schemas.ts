@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const BrandSchema = yup.object({
-  brand_name: yup
+  name: yup
     .string()
     .min(4, "Brand name must be at least 4 characters long")
     .required("Brand name is required"),

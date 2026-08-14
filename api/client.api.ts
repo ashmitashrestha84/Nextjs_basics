@@ -3,7 +3,7 @@ import { TCategory } from "@/types/Acategory.types";
 import api from ".";
 import { TProduct } from "@/types/Aproduct.types";
 
-export const brand = async (data: TBrand) => {
+export const brand = async (data: FormData) => {
   try {
     const response = await api.post("brands", data);
     console.log(response);
@@ -14,7 +14,7 @@ export const brand = async (data: TBrand) => {
   }
 };
 
-export const category = async (data: TCategory) => {
+export const category = async (data: FormData) => {
   try {
     const response = await api.post("categories", data);
     console.log(response);
@@ -25,7 +25,7 @@ export const category = async (data: TCategory) => {
   }
 };
 
-export const product = async (data: TProduct) => {
+export const product = async (data: FormData) => {
   try {
     const response = await api.post("products", data);
     console.log(response);
