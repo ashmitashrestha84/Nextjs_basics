@@ -3,6 +3,7 @@ import { IProducts } from "@/types/products.types";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { IoHeartOutline } from "react-icons/io5";
 
 interface IProps {
@@ -12,21 +13,30 @@ interface IProps {
 const ProductCard = ({
   product: { name, product_image, price, description, category, brand, _id },
 }: IProps) => {
-  const { mutate: addToWishlist } = useMutation({
+  const { mutate, isPending} = useMutation({
     mutationFn: postAllWishlist,
+    onSuccess:(response)=>{
+      toast.success(response.message?? "product added to wishlist")
+    },
+    onError:(error:any)=>{
+      toast.success(error.message?? "something went wrong")
+    }
   });
-  const handleWishlist = (e: React.MouseEvent, productId: string) => {
-    e.preventDefault();
-    e.stopPropagation();
+  // const handleWishlist = (e: React.MouseEvent, productId: string) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
 
-    addToWishlist(productId);
-  };
+  //   addToWishlist(productId);
+  // };
   return (
     <Link href={`/products/${_id}`}>
       <article className="flex flex-col border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-green-100 transition-all">
         <button
-          type="button"
-          onClick={(e) => handleWishlist(e,_id)}
+        disabled={isPending}
+          onClick={(e)=>{
+            e.stopPropagation()
+            mutate(_id)
+          }}
           className="absolute right-3 top-3 z-10 rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
         >
           <IoHeartOutline className="text-xl text-gray-700" />

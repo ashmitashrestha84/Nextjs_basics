@@ -7,22 +7,23 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "@/api/category.api";
-import { ICategories } from "@/types/categories.types";
+import { IBrand } from "@/types/brand.types";
 
 
-interface CategoryTableProps {
+
+
+interface BrandTableProps {
   isUpdateMode: boolean;
-  onSelectProduct: (product: ICategories) => void;
-  selectedProduct: ICategories | null;
+  onSelectProduct: (product: IBrand) => void;
+  selectedProduct: IDBTransactionMode | null;
 }
 
 const CategoryTable = ({
   isUpdateMode,
   onSelectProduct,
-}: CategoryTableProps) => {
+}: BrandTableProps) => {
   const { data, isLoading, isError } = useQuery({
-    queryFn: getAllCategories,
+    queryFn: ,
     queryKey: ["get-all-category"],
   });
 
