@@ -9,17 +9,14 @@ import { CiShoppingTag } from "react-icons/ci";
 
 const Sidebar = () => {
   return (
-    <main className="flex h-full w-full shrink-0 flex-col bg-green-950 text-white ">
-      
+    <main className="flex h-screen w-full flex-col bg-green-950 text-white">
       {/* Logo */}
       <div className="flex items-center gap-3 border-b border-black px-4 py-3">
         <div className="flex h-10 w-9 items-center justify-center rounded-xl bg-green-800 text-2xl">
           <h1>V</h1>
         </div>
 
-        <h1 className="text-base font-semibold">
-          Botaniva Admin
-        </h1>
+        <h1 className="text-base font-semibold">Botaniva Admin</h1>
       </div>
 
       {/* Navigation */}
@@ -66,20 +63,15 @@ const Sidebar = () => {
       </nav>
 
       <div className="mt-auto flex w-full items-center justify-baseline border-t border-black px-1 pt-4 pb-4">
-    
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-300 text-lg font-medium">
             A
           </div>
 
           <div>
-            <p className="text-base font-normal">
-              Admin User
-            </p>
+            <p className="text-base font-normal">Admin User</p>
 
-            <p className="text-sm text-green-400">
-              admin@botaniva.co
-            </p>
+            <p className="text-sm text-green-400">admin@botaniva.co</p>
           </div>
         </div>
 
@@ -89,7 +81,6 @@ const Sidebar = () => {
         >
           <AiOutlineLogout size={22} />
         </button>
-
       </div>
     </main>
   );

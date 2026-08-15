@@ -1,6 +1,6 @@
 // "use client";
 import Image from "next/image";
-// import { useState } from "react";
+
 import {
   IoCartOutline,
   IoHeartOutline,
@@ -9,6 +9,7 @@ import {
   IoStar,
 } from "react-icons/io5";
 import Quantity from "./quantity";
+import AddToWishlist from "./addtowishlist";
 
 const ProductDetailPage = async ({
   params,
@@ -131,17 +132,17 @@ const ProductDetailPage = async ({
           <Quantity />
         </div>
 
-  
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <button className="flex h-14 items-center justify-center gap-2 rounded-xl bg-green-950 font-semibold text-white transition hover:bg-green-900">
             <IoCartOutline className="text-xl" />
             Add to Cart
           </button>
 
-          <button className="flex h-14 items-center justify-center gap-2 rounded-xl border-2 border-green-900 bg-white font-semibold text-green-950 transition hover:bg-green-50">
-            <IoHeartOutline className="text-xl" />
-            Add to Wishlist
-          </button>
+          <AddToWishlist
+            productId={id}
+            className="flex h-14 items-center justify-center gap-2 rounded-xl border-2 border-green-900 bg-white font-semibold text-green-950 hover:bg-red-100"
+            detail={"Add To Wishlist"}
+          />
         </div>
       </div>
     </article>

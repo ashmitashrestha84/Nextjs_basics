@@ -44,7 +44,7 @@ const CategoryTable = ({
     },
     {
       accessorKey: "name",
-      header: "category",
+      header: "Category",
       cell: ({ row }) => {
         if (isUpdateMode) {
           return (

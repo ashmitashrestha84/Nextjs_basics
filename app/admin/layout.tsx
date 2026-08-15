@@ -3,14 +3,17 @@ import Header from "@/components/admin/layout/header";
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <main className="flex min-h-screen">
-      <section className="w-70 border-r border-gray-500 pt-10  bg-green-950 min-h-screen flex justify-between items-start" >
+    <main className="flex min-h-screen w-full">
+      {/* Sidebar */}
+      <section className="w-64 shrink-0 bg-green-950">
         <Sidebar />
       </section>
 
-      <section className="w-full h-full relative">
+      {/* Main content */}
+      <section className="min-w-0 flex-1">
         <Header />
-        <section className="h-[calc(h-screen-64px)] top-16 z-1 overflow-y-auto">
+
+        <section className="h-[calc(100vh-64px)] overflow-y-auto overflow-x-auto">
           {children}
         </section>
       </section>
