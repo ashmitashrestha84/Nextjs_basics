@@ -47,7 +47,7 @@ const ProductForm = () => {
       console.log("on success");
       console.log(data);
       toast.success(data?.message ?? "Product register");
-      router.replace("/login");
+      router.replace("/admin/product");
     },
     onError(error: Error) {
       console.log("on error");
@@ -71,6 +71,7 @@ const ProductForm = () => {
     formData.append("is_featured", String(data.is_featured));
     formData.append("new_arrival", String(data.new_arrival));
     mutate(formData);
+    router.push("admin/list/product")
   };
   return (
     <form

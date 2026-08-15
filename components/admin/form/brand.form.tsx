@@ -34,7 +34,7 @@ const BrandForm = () => {
       console.log("on success");
       console.log(data);
       toast.success(data?.message ?? "Brand register");
-      router.replace("/login");
+      router.replace("/admin/brands");
     },
     onError: (error: Error) => {
       console.log("on error");

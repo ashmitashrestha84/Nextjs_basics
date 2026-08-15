@@ -35,7 +35,7 @@ const CategoryForm = () => {
       console.log("on success");
       console.log(data);
       toast.success(data?.message ?? "Brand register");
-      router.replace("/login");
+      router.replace("/admin/categories");
     },
     onError: (error: Error) => {
       console.log("on error");
@@ -49,6 +49,7 @@ const formData=new FormData()
     formData.append("description",data.description)
     formData.append("logo",data.logo[0])
     mutate(formData);
+    router.push("admin/list/category")
   };
   return (
     <form
