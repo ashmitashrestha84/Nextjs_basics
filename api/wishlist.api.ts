@@ -2,7 +2,7 @@ import api from ".";
 
 export const postAllWishlist = async (productId: string) => {
   try {
-    const response = await api.post("/wishlist", {
+    const response = await api.post("/wishlists", {
       product_id: productId,
     });
 
@@ -12,22 +12,19 @@ export const postAllWishlist = async (productId: string) => {
   }
 };
 
-// Get wishlist
 export const getAllWishlist = async () => {
   try {
-    const response = await api.get("/wishlist");
+    const response = await api.get("/wishlists");
 
-    return response?.data;
+    return response?.data?.data;
   } catch (error: any) {
     throw error?.response?.data;
   }
 };
 
-
-// Get wishlist
-export const deleteWishlist = async (productId:string) => {
+export const deleteWishlist = async (productId: string) => {
   try {
-    const response = await api.delete(`/wishlist/${productId}`);
+    const response = await api.delete(`/wishlists/${productId}`);
 
     return response?.data;
   } catch (error: any) {

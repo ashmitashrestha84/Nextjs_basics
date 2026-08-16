@@ -6,6 +6,7 @@ import {
   postAllWishlist,
 } from "@/api/wishlist.api";
 import { WishlistContext } from "@/context/wishlist.context";
+
 import { TWishlist } from "@/types/wishlist.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode } from "react";
@@ -72,9 +73,8 @@ const WishlistProvider = ({ children }: IProps) => {
   const isExists = ({ productId }: { productId: string }) => {
     if (!wishList) return false;
 
-    return wishList.some((item:TWishlist) => item.product._id === productId);
+    return wishList.products.some((product:any) => product._id === productId);
   };
-
   return (
     <WishlistContext.Provider
       value={{

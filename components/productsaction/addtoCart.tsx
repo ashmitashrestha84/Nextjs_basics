@@ -1,11 +1,9 @@
 "use client";
 
-import { createCart } from "@/api/cart.api";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useContext, useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import Quantity from "../landing/featured-product/quantity";
+import { CartContext } from "@/context/cart.context.api";
 
 interface IProps {
   className: string;
@@ -16,20 +14,10 @@ interface IProps {
 const AddToCart = ({ className, detail, productId }: IProps) => {
   const [count, setCount] = useState(1);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: createCart,
-
-    onSuccess(response) {
-      toast.success(response.message ?? "Product added to Cart");
-    },
-
-    onError(error: any) {
-      toast.error(error.message ?? "Something went wrong");
-    },
-  });
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = () => {
-    mutate({
+    addToCart({
       productId,
       quantity: count,
     });
@@ -39,14 +27,9 @@ const AddToCart = ({ className, detail, productId }: IProps) => {
     <div className="flex flex-col gap-4">
       <Quantity count={count} setCount={setCount} />
 
-      <button
-        type="button"
-        disabled={isPending}
-        onClick={handleAddToCart}
-        className={className}
-      >
+      <button type="button" onClick={handleAddToCart} className={className}>
         <IoCartOutline className="text-xl" />
-        {isPending ? "Adding..." : detail}
+        {detail ?? "Add to Cart"}
       </button>
     </div>
   );

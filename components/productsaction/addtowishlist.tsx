@@ -18,6 +18,10 @@ const AddToWishlist = ({ productId, className, detail }: IProps) => {
   const isAdded = isExists({ productId });
 
   const handleWishlist = () => {
+    console.log("CLICKED");
+    console.log("productId:", productId);
+    console.log("isAdded:", isAdded);
+
     if (isAdded) {
       removeFromWishlist({ productId });
     } else {

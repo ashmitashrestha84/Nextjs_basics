@@ -19,7 +19,6 @@ const ProductCard = ({
     <article className="flex flex-col border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-green-100 transition-all">
       <AddToWishlist
         productId={_id}
-        isAdded={true}
         className="absolute right-3 top-3 z-10 rounded-full p-2 shadow-md bg-red-200"
       />
       <div className=" h-70 w-full rounded-sm overflow-clip shrink-0">

@@ -16,7 +16,7 @@ const Loginpage = () => {
               Login
             </h1>
 
-            <p className="text-muted text-base">
+            <p className=" text-base text-gray-500 ">
               Welcome back! Please login to your account.
             </p>
           </div>
@@ -32,12 +32,12 @@ const Loginpage = () => {
               </Link>
             </div>
 
-            <p className="text-center text-muted">
+            <p className="text-center text-gray-500">
               Don&apos;t have an account?{" "}
               <Link
                 href="/sign-up"
                 title="Go to sign up page"
-                className="text-primary hover:text-primary-hover font-semibold"
+                className="text-gray-500 hover:text-primary-hover font-semibold"
               >
                 Sign Up
               </Link>

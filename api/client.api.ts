@@ -1,7 +1,4 @@
-import { TBrand } from "@/types/Abrand.types";
-import { TCategory } from "@/types/Acategory.types";
 import api from ".";
-import { TProduct } from "@/types/Aproduct.types";
 
 export const brand = async (data: FormData) => {
   try {

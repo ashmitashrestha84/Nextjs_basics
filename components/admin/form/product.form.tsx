@@ -10,7 +10,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ProductImageCarousel from "./productimagecarosel";
 
 const ProductForm = () => {
   const router = useRouter();
@@ -87,7 +86,7 @@ const ProductForm = () => {
       noValidate
       className="flex flex-col gap-3"
     >
-      <ProductImageCarousel images={carouselImages} />
+      
       <Input
         label="Product Name"
         placeholder="Enter product name"

@@ -17,7 +17,7 @@ const SignupPage = () => {
             Sign Up
           </h1>
 
-          <p className="text-muted text-base">
+          <p className="text-gray-500 text-base">
             Welcome! Please create your account.
           </p>
         </div>
@@ -26,7 +26,7 @@ const SignupPage = () => {
           <div className="text-right">
           </div>
 
-          <p className="text-center text-muted">
+          <p className="text-center text-gray-500">
             Already have an account?
             <Link
               href="/login"
