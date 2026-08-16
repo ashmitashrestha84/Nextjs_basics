@@ -25,3 +25,26 @@ export const signup = async (data: TSignup) => {
     throw error.response.data;
   }
 };
+
+//login
+export const getProfile = async () => {
+  try {
+    const response = await api.post("auth/me");
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw error.response.data;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const response = await api.post("auth/me");
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw error.response.data;
+  }
+};

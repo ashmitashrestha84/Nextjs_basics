@@ -23,4 +23,4 @@ const initialValue: TAuthContext = {
   isLoading: false,
 };
 
-export const authContext = createContext<TAuthContext>(initialValue);
+export const AuthContext = createContext<TAuthContext>(initialValue);
