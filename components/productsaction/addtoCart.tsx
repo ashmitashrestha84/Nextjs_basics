@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
-import Quantity from "./quantity";
+import Quantity from "../landing/featured-product/quantity";
 
 interface IProps {
   className: string;

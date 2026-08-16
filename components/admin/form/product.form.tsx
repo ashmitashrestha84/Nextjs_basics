@@ -48,6 +48,7 @@ const ProductForm = () => {
       console.log(data);
       toast.success(data?.message ?? "Product register");
       router.replace("/admin/product");
+      router.push("/list/product");
     },
     onError(error: Error) {
       console.log("on error");
@@ -57,21 +58,28 @@ const ProductForm = () => {
   });
   const formData = new FormData();
   const onSubmit = async (data: TProduct) => {
+    console.log("VALID DATA:", data);
+
+    const formData = new FormData();
+
     formData.append("name", data.name);
     formData.append("price", String(data.price));
     formData.append("description", data.description);
     formData.append("product_image", data.product_image[0]);
     formData.append("category", data.category);
     formData.append("brand", data.brand);
+
     if (data.images?.length) {
       for (const image of data.images) {
+            console.log(image.name);
         formData.append("images", image);
       }
     }
+
     formData.append("is_featured", String(data.is_featured));
     formData.append("new_arrival", String(data.new_arrival));
+
     mutate(formData);
-    router.push("admin/list/product")
   };
   return (
     <form
@@ -88,6 +96,15 @@ const ProductForm = () => {
         id="name"
         register={register}
         error={errors.name?.message}
+      />
+      <Input
+        label="Price"
+        placeholder="Enter product price"
+        type="text"
+        name="price"
+        id="price"
+        register={register}
+        error={errors.price?.message}
       />
 
       <Input
@@ -155,8 +172,7 @@ const ProductForm = () => {
         register={register}
         error={errors.is_featured?.message}
       />
-
-      <Button label="Submit" type="submit" />
+      <Button label={isPending ? "Creating..." : "Submit"} type="submit" />
     </form>
   );
 };

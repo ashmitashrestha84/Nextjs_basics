@@ -9,8 +9,8 @@ import {
   IoStar,
 } from "react-icons/io5";
 import Quantity from "./quantity";
-import AddToWishlist from "./addtowishlist";
-import AddToCart from "./addtoCart";
+import AddToWishlist from "../../productsaction/addtowishlist";
+import AddToCart from "../../productsaction/addtoCart";
 
 const ProductDetailPage = async ({
   params,
