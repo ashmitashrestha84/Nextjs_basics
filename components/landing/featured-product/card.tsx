@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { FiHeart } from "react-icons/fi";
 import { IoHeartOutline } from "react-icons/io5";
 import AddToWishlist from "../../productsaction/addtowishlist";
+import { useWishlist } from "@/hooks/wishlist.hook";
 
 interface IProps {
   product: IProducts;
@@ -15,6 +16,8 @@ interface IProps {
 const ProductCard = ({
   product: { name, product_image, price, description, category, brand, _id },
 }: IProps) => {
+    // const { addToWishlist, removeFromWishlist, isExists } =useWishlist;
+  
   return (
     <article className="flex flex-col border border-primary max-w-100 h-fit gap-2 p-1 rounded-md items-center hover:translate-y-1 hover:bg-green-100 transition-all">
       <AddToWishlist
