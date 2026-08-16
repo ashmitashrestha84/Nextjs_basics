@@ -1,3 +1,5 @@
+"use client"
+
 import { getProfile, logoutUser } from "@/api/auth.api"
 import { AuthContext } from "@/context/auth.context.api"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -5,7 +7,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 
-const AuthProvider = () => {
+const AuthProvider = ({children}:{children:React.ReactNode}) => {
     const router=useRouter();
     const {data,isLoading}=useQuery({
         queryFn:getProfile,
@@ -46,6 +48,7 @@ return (
       user: data?.data ?? null,
     }}
   >
+    {children}
   </AuthContext.Provider>
 );
 }
