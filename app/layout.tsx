@@ -4,8 +4,7 @@ import "./globals.css";
 
 import { Toaster } from "react-hot-toast";
 import ReactQueryClientProvider from "@/providers/queryclient.provider";
-import WishlistProvider from "@/providers/wishlist.provider";
-import CartProvider from "@/providers/cart.provider";
+import Provider from "@/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,13 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased `}
     >
       <body className="tracking-wider  h-full flex flex-col">
-        <ReactQueryClientProvider>
-  <WishlistProvider>
-    <CartProvider>
-      {children}
-    </CartProvider>
-  </WishlistProvider>
-</ReactQueryClientProvider>
+        <Provider>{children}</Provider>
         <Toaster />
       </body>
     </html>
