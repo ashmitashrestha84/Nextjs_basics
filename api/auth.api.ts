@@ -1,5 +1,5 @@
-import { TLogin } from "@/types/auth.types";
-import { TSignup } from "@/types/register.types";
+import { TLogin, TSignup } from "@/types/auth.types";
+
 import api from ".";
 
 

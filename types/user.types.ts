@@ -1,6 +1,6 @@
 import { Image } from "./image.types";
 
- export type TUser={
+ export type IUser={
         _id:string,
         createdAt:string,
         updatedAt:string,

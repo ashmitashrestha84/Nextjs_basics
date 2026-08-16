@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { IProducts } from "@/types/products.types";
 import { getAllProducts } from "@/api/allproduct.api";
+import Table from "@/components/common/table";
 
 interface ProductTableProps {
   isUpdateMode: boolean;
@@ -17,10 +18,7 @@ interface ProductTableProps {
   selectedProduct: IProducts | null;
 }
 
-const ProductTable = ({
-  isUpdateMode,
-  onSelectProduct,
-}: ProductTableProps) => {
+const ProductTable = ({ isUpdateMode, onSelectProduct }: ProductTableProps) => {
   const { data, isLoading, isError } = useQuery({
     queryFn: getAllProducts,
     queryKey: ["get-all-products"],
@@ -113,47 +111,11 @@ const ProductTable = ({
 
   return (
     <div className="mt-6 overflow-x-auto rounded-lg bg-white">
-      <table className="w-full">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b bg-gray-50">
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="px-5 py-4 text-left text-sm font-semibold"
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              onClick={() => {
-                if (isUpdateMode) {
-                  onSelectProduct(row.original);
-                }
-              }}
-              className={`border-b hover:bg-gray-50 ${
-                isUpdateMode ? "cursor-pointer" : ""
-              }`}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-5 py-4 text-sm">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        table={table}
+        isUpdateMode={isUpdateMode}
+        onSelectRow={onSelectProduct}
+      />
     </div>
   );
 };
