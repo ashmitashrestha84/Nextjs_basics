@@ -1,8 +1,12 @@
 import { getAllUsers } from "@/api/user.api";
-import Table from "@/components/common/table";
+import Table from "@/components/admin/list/table";
 import { IUser } from "@/types/user.types";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 interface UserTableProps {
   isUpdateMode: boolean;
@@ -32,29 +36,27 @@ const UserTable = ({ isUpdateMode, onSelectUser }: UserTableProps) => {
       ),
     },
     {
-        accessorKey:"full_name",
-        header:"name",
+      accessorKey: "full_name",
+      header: "name",
     },
     {
-        accessorKey:"email",
-        header:"Email"
+      accessorKey: "email",
+      header: "Email",
     },
   ];
 
-  const table= useReactTable({
-    data:user,
+  const table = useReactTable({
+    data: user,
     columns,
-    getCoreRowModel:getCoreRowModel(),
-  })
-    if (isLoading) {
+    getCoreRowModel: getCoreRowModel(),
+  });
+  if (isLoading) {
     return <div className="p-6 text-center">Loading User...</div>;
   }
 
   if (isError) {
     return (
-      <div className="p-6 text-center text-red-500">
-        Failed to load User.
-      </div>
+      <div className="p-6 text-center text-red-500">Failed to load User.</div>
     );
   }
 
@@ -70,4 +72,3 @@ const UserTable = ({ isUpdateMode, onSelectUser }: UserTableProps) => {
 };
 
 export default UserTable;
-

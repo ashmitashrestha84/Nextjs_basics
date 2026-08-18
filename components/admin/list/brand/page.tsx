@@ -9,7 +9,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { IBrand } from "@/types/brand.types";
 import { getAllBrands } from "@/api/brand.api";
-import Table from "@/components/common/table";
+import Table from "@/components/admin/list/table";
 
 interface BrandTableProps {
   isUpdateMode: boolean;
@@ -18,20 +18,19 @@ interface BrandTableProps {
 }
 
 const BrandTable = ({ isUpdateMode, onSelectBrand }: BrandTableProps) => {
-  const { data, isLoading, isError,} = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryFn: getAllBrands,
     queryKey: ["get-all-brand"],
   });
 
-
   const brand: IBrand[] = data?.data?.brand ?? [];
   console.log(
-  brand.map((brand) => ({
-    name: brand.name,
-    logo: brand.logo,
-    path: brand.logo?.path,
-  }))
-);
+    brand.map((brand) => ({
+      name: brand.name,
+      logo: brand.logo,
+      path: brand.logo?.path,
+    })),
+  );
 
   const columns: ColumnDef<IBrand>[] = [
     {
@@ -96,9 +95,11 @@ const BrandTable = ({ isUpdateMode, onSelectBrand }: BrandTableProps) => {
 
   return (
     <div className="mt-6 overflow-x-auto rounded-lg bg-white">
-      <Table table={table}
-      isUpdateMode={isUpdateMode}
-      onSelectRow={onSelectBrand}/>
+      <Table
+        table={table}
+        isUpdateMode={isUpdateMode}
+        onSelectRow={onSelectBrand}
+      />
     </div>
   );
 };

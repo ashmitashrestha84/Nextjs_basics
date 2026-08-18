@@ -9,7 +9,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "@/api/category.api";
 import { ICategories } from "@/types/categories.types";
-import Table from "@/components/common/table";
+import Table from "@/components/admin/list/table";
 
 interface CategoryTableProps {
   isUpdateMode: boolean;

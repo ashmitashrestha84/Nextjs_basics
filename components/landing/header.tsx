@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Header = () => {
   return (
      <div className="[background-image:url('/images.png')] bg-cover bg-center bg-no-repeat min-h-[500px] w-full">
@@ -5,7 +7,7 @@ const Header = () => {
       <h1 className="text-4xl font-bold"> Welcome to Botaniva</h1>
       <p className="mt-3 text-lg">Fresh products for your everyday life.</p>
       <button className="mt-5 rounded-lg bg-green-700 px-6 py-3">
-        Shop Now
+        <Link href="/products">Shop Now</Link>
       </button>
     </div>
     </div>

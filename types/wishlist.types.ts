@@ -1,8 +1,8 @@
 import { IProducts } from "./products.types";
-import { TUser } from "./user.types";
+import { IUser } from "./user.types";
 
 export type TWishlist = {
   _id: string;
-  user: TUser;
+  user: IUser;
   products: IProducts[];
 };

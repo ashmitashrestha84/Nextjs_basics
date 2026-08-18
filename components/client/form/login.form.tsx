@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { login } from "@/api/auth.api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { All_Admin } from "@/types/enum.types";
@@ -17,12 +17,13 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<TLogin>({
     defaultValues: {
       email: "",
       password: "",
@@ -33,18 +34,21 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const { data, isPending, error, mutate } = useMutation({
     mutationFn: login,
     mutationKey: ["login"],
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log("on success");
       console.log(data);
       toast.success(data?.message ?? "Login success");
+      await queryClient.refetchQueries({
+        queryKey: ["auth", "me"],
+      });
       onLoginSuccess();
-      //  router.push()
       if (All_Admin.includes(data.data.role)) {
         router.replace("/dashboard");
       } else {
         router.replace("/");
       }
     },
+
     onError: (error: Error) => {
       toast.error(error?.message ?? "Login Failed");
       console.log("on error");

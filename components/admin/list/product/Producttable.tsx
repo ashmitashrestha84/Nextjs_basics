@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { IProducts } from "@/types/products.types";
 import { getAllProducts } from "@/api/allproduct.api";
-import Table from "@/components/common/table";
+import Table from "@/components/admin/list/table";
 
 interface ProductTableProps {
   isUpdateMode: boolean;

@@ -1,8 +1,9 @@
 import { TLogin, TSignup } from "@/types/auth.types";
+import { IUser } from "@/types/user.types";
 import { createContext } from "react";
 
 type TAuthContext = {
-  user: TLogin | null;
+  user: IUser | null;
   register: (data: TSignup) => void;
   login: (data: TLogin) => void;
   logout: () => void;

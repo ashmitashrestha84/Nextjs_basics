@@ -1,14 +1,10 @@
 "use client";
 
 import { createContext } from "react";
-
-export type TCartItem = {
-  product_id: string;
-  quantity: number;
-};
+import { TCart } from "@/types/cart.types";
 
 type TCartContext = {
-  cart: TCartItem[] | null;
+  cart: TCart | null;
 
   addToCart: ({
     productId,

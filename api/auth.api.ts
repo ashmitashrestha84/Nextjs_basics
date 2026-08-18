@@ -2,7 +2,6 @@ import { TLogin, TSignup } from "@/types/auth.types";
 
 import api from ".";
 
-
 export const login = async (data: TLogin) => {
   try {
     const response = await api.post("auth/login", data);
@@ -41,10 +40,13 @@ export const getProfile = async () => {
 export const logoutUser = async () => {
   try {
     const response = await api.post("/auth/logout");
-    console.log(response);
+
+    console.log("API LOGOUT RESPONSE:", response.data);
+
     return response.data;
   } catch (error: any) {
-    console.log(error);
-    throw error.response.data;
+    console.log("API LOGOUT ERROR:", error);
+
+    throw error.response?.data ?? error;
   }
 };
