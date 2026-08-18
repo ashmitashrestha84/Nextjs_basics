@@ -3,7 +3,6 @@
 import Button from "@/components/button";
 import Input from "@/components/common/input";
 import { signupSchema } from "@/schemas/register.schemas";
-import { TSignup } from "@/types/register.types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
@@ -11,10 +10,11 @@ import { FaGithub } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "@/api/auth.api";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-
-const RegisterForm = () => {
-  const router = useRouter();
+import { TSignup } from "@/types/auth.types";
+interface RegisterFormProps {
+  onSignupSuccess: () => void;
+}
+const RegisterForm = ({ onSignupSuccess }: RegisterFormProps) => {
   const {
     register,
     handleSubmit,
@@ -35,8 +35,10 @@ const RegisterForm = () => {
     onSuccess: (data) => {
       console.log("on success");
       console.log(data);
+
       toast.success(data?.message ?? "Account created");
-      router.replace("/login");
+
+      onSignupSuccess();
     },
     onError: (error: Error) => {
       console.log("on error");

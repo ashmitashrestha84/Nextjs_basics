@@ -29,7 +29,7 @@ export const signup = async (data: TSignup) => {
 //login
 export const getProfile = async () => {
   try {
-    const response = await api.post("auth/me");
+    const response = await api.get("/auth/me");
     console.log(response);
     return response.data;
   } catch (error: any) {
@@ -40,7 +40,7 @@ export const getProfile = async () => {
 
 export const logoutUser = async () => {
   try {
-    const response = await api.post("auth/me");
+    const response = await api.post("/auth/logout");
     console.log(response);
     return response.data;
   } catch (error: any) {

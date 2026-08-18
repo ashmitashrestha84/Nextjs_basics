@@ -12,8 +12,11 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { All_Admin } from "@/types/enum.types";
+interface LoginFormProps {
+  onLoginSuccess: () => void;
+}
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const router = useRouter();
   const {
     register,
@@ -34,6 +37,7 @@ const LoginForm = () => {
       console.log("on success");
       console.log(data);
       toast.success(data?.message ?? "Login success");
+      onLoginSuccess();
       //  router.push()
       if (All_Admin.includes(data.data.role)) {
         router.replace("/dashboard");

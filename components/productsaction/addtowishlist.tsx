@@ -43,7 +43,7 @@ const AddToWishlist = ({ productId, className, detail }: IProps) => {
           {isAdded ? "Remove from Wishlist" : "Add to Wishlist"}
         </>
       ) : isAdded ? (
-        <IoHeartOutline className="text-xl text-white" />
+        <IoHeartOutline className="text-xl text-white fill-amber-600" />
       ) : (
         <FiHeart className="text-xl text-white" />
       )}
