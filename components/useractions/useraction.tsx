@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useContext } from "react";
 import { FiHeart, FiShoppingCart, FiLogIn, FiUserPlus } from "react-icons/fi";
-
-import { AuthContext } from "@/context/auth.context.api";
 import Authsection from "../common/authsection";
+import { useAuth } from "@/hooks/auth.hook";
 
 const UserActions = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <div className="flex items-center gap-6">

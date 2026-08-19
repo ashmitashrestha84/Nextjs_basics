@@ -2,6 +2,7 @@
 
 import { createCart, deleteCart, getCart } from "@/api/cart.api";
 import { CartContext } from "@/context/cart.context.api";
+import { useAuth } from "@/hooks/auth.hook";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -13,12 +14,14 @@ interface IProps {
 const CartProvider = ({ children }: IProps) => {
   const queryClient = useQueryClient();
 
-  const { data: cart = null } = useQuery({
-    queryKey: ["get-cart"],
+  const { user } = useAuth();
+
+  const { data: cart } = useQuery({
     queryFn: getCart,
+    queryKey: ["cart", user?._id],
+    enabled: !!user?._id,
   });
 
-  // ADD TO CART
   const { mutate: addToCart } = useMutation({
     mutationFn: createCart,
 
@@ -35,7 +38,6 @@ const CartProvider = ({ children }: IProps) => {
     },
   });
 
-  // REMOVE FROM CART
   const { mutate: removeFromCart } = useMutation({
     mutationFn: deleteCart,
 

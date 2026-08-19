@@ -3,7 +3,7 @@
 import { WishlistContext } from "@/context/wishlist.context";
 import { useContext } from "react";
 import { FiHeart } from "react-icons/fi";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
 interface IProps {
   productId: string;
@@ -18,10 +18,6 @@ const AddToWishlist = ({ productId, className, detail }: IProps) => {
   const isAdded = isExists({ productId });
 
   const handleWishlist = () => {
-    console.log("CLICKED");
-    console.log("productId:", productId);
-    console.log("isAdded:", isAdded);
-
     if (isAdded) {
       removeFromWishlist({ productId });
     } else {
@@ -31,6 +27,7 @@ const AddToWishlist = ({ productId, className, detail }: IProps) => {
 
   return (
     <button
+      type="button"
       onClick={(e) => {
         e.stopPropagation();
         handleWishlist();
@@ -39,11 +36,16 @@ const AddToWishlist = ({ productId, className, detail }: IProps) => {
     >
       {detail ? (
         <>
-          <IoHeartOutline className="text-xl" />
+          {isAdded ? (
+            <IoHeart className="text-xl text-amber-600" />
+          ) : (
+            <IoHeartOutline className="text-xl" />
+          )}
+
           {isAdded ? "Remove from Wishlist" : "Add to Wishlist"}
         </>
       ) : isAdded ? (
-        <IoHeartOutline className="text-xl text-white fill-amber-600" />
+        <IoHeart className="text-xl text-white fill-amber-600" />
       ) : (
         <FiHeart className="text-xl text-white" />
       )}

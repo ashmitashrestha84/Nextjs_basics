@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IBrand } from "@/types/brand.types";
 import { getAllBrands } from "@/api/brand.api";
 import Table from "@/components/admin/list/table";
+import Action from "../action";
 
 interface BrandTableProps {
   isUpdateMode: boolean;
@@ -73,6 +74,12 @@ const BrandTable = ({ isUpdateMode, onSelectBrand }: BrandTableProps) => {
       accessorKey: "description",
       header: "Description",
     },
+     {
+      accessorKey:"action",
+      header:"Action",
+      cell: () => <Action />,
+    },
+    
   ];
 
   const table = useReactTable({

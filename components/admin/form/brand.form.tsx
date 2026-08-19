@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Input from "@/components/common/input";
 import Button from "@/components/button";
-import { brand } from "@/api/client.api";
+import { brand } from "@/api/brand.api";
 
 const BrandForm = () => {
   const router = useRouter();

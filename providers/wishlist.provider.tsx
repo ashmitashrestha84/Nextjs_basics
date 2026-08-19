@@ -6,8 +6,8 @@ import {
   postAllWishlist,
 } from "@/api/wishlist.api";
 import { WishlistContext } from "@/context/wishlist.context";
-
-import { TWishlist } from "@/types/wishlist.types";
+import { useAuth } from "@/hooks/auth.hook";
+import { TWishlistItem } from "@/types/wishlist.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import toast from "react-hot-toast";
@@ -18,12 +18,13 @@ interface IProps {
 
 const WishlistProvider = ({ children }: IProps) => {
   const queryClient = useQueryClient();
+const { user } = useAuth();
 
-  // Get wishlist
-  const { data: wishList } = useQuery({
-    queryKey: ["get-wishlist"],
-    queryFn: getAllWishlist,
-  });
+const { data:wishList } = useQuery({
+  queryFn: getAllWishlist,
+  queryKey: ["wishlist", user?._id],
+  enabled: !!user?._id,
+});
 
   // Add wishlist
   const { mutate: addWishlist } = useMutation({
@@ -69,11 +70,12 @@ const WishlistProvider = ({ children }: IProps) => {
     removeWishlist(productId);
   };
 
-  // Check if product already exists
   const isExists = ({ productId }: { productId: string }) => {
-    if (!wishList) return false;
+    if (!wishList || !Array.isArray(wishList.products)) {
+      return false;
+    }
 
-    return wishList.products.some((product:any) => product._id === productId);
+    return wishList.products.some((item:TWishlistItem) => item.product_id === productId);
   };
   return (
     <WishlistContext.Provider

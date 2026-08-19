@@ -2,7 +2,7 @@ import { TWishlist } from "@/types/wishlist.types";
 import { createContext } from "react";
 
 type TWishlistContext = {
-  wishList: TWishlist[] | null;
+  wishList: TWishlist|null;
   addToWishlist: ({ productId }: { productId: string }) => void;
   removeFromWishlist: ({ productId }: { productId: string }) => void;
   isExists: ({ productId }: { productId: string }) => boolean;

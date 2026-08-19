@@ -1,5 +1,8 @@
+"use client"
 import Sidebar from "@/components/admin/layout/sidebar";
 import Header from "@/components/admin/layout/header";
+import WithAuth from "@/hoc/withAuth.hoc";
+import { All_Admin } from "@/types/enum.types";
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
@@ -20,5 +23,5 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     </main>
   );
 };
-
-export default Layout;
+const PrivateLayout=WithAuth(Layout, All_Admin)
+export default PrivateLayout;

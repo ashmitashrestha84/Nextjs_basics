@@ -1,6 +1,5 @@
 import { IProducts } from "./products.types";
 
-
 export type TCartItem = {
   product_id: IProducts;
   quantity: number;

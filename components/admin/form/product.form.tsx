@@ -1,6 +1,6 @@
 "use client";
 import { signup } from "@/api/auth.api";
-import { product } from "@/api/client.api";
+import { product } from "@/api/allproduct.api";
 import Button from "@/components/button";
 import Input from "@/components/common/input";
 import { productSchema } from "@/schemas/product.schemas";

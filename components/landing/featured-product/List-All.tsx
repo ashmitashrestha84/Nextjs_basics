@@ -9,8 +9,6 @@ const AllList = () => {
     queryFn: getAllProducts,
     queryKey: ["get-all-product"],
   });
-  console.log("product page", data);
-  console.log("PRODUCT COUNT:", data?.data?.length);
 
   return (
     <>

@@ -3,6 +3,9 @@
 import { useContext } from "react";
 import Image from "next/image";
 import { CartContext } from "@/context/cart.context.api";
+import { FiShoppingCart } from "react-icons/fi";
+import WithAuth from "@/hoc/withAuth.hoc";
+import { User_Only } from "@/types/enum.types";
 
 const CartPage = () => {
   const { cart, removeFromCart } = useContext(CartContext);
@@ -15,16 +18,17 @@ const CartPage = () => {
             Shopping Cart
           </h1>
 
-          <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
-            <div className="mb-4 text-5xl">🛒</div>
+          <div className="flex flex-col items-center justify-center rounded-2xl bg-white p-12 text-center shadow-sm">
+            <FiShoppingCart
+              className="mb-4 justify-center items-center text-center"
+              size={60}
+            />
 
             <h2 className="mb-2 text-xl font-semibold text-green-950">
               Your cart is empty
             </h2>
 
-            <p className="text-gray-500">
-              Add some botanical products to your cart.
-            </p>
+            <p className="text-gray-500">Add some products to your cart.</p>
           </div>
         </div>
       </main>
@@ -130,4 +134,6 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+const PrivateCart=WithAuth(CartPage,User_Only)
+
+export default PrivateCart;

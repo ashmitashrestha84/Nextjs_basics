@@ -1,3 +1,4 @@
+import { Role } from "./enum.types";
 import { Image } from "./image.types";
 
  export type IUser={
@@ -7,4 +8,5 @@ import { Image } from "./image.types";
         full_name:string,
         profile_image:Image,
         email:string;
+        role:Role,
     }

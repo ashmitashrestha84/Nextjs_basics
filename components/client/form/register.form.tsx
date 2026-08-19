@@ -11,10 +11,8 @@ import { useMutation } from "@tanstack/react-query";
 import { signup } from "@/api/auth.api";
 import toast from "react-hot-toast";
 import { TSignup } from "@/types/auth.types";
-interface RegisterFormProps {
-  onSignupSuccess: () => void;
-}
-const RegisterForm = ({ onSignupSuccess }: RegisterFormProps) => {
+
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
@@ -37,8 +35,6 @@ const RegisterForm = ({ onSignupSuccess }: RegisterFormProps) => {
       console.log(data);
 
       toast.success(data?.message ?? "Account created");
-
-      onSignupSuccess();
     },
     onError: (error: Error) => {
       console.log("on error");

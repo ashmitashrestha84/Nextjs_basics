@@ -1,8 +1,9 @@
 "use client";
-import { getFeaturedAllProducts } from "@/api/featuredproduct.api";
+
 import { IProducts } from "@/types/products.types";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./card";
+import { getFeaturedAllProducts } from "@/api/allproduct.api";
 
 const ProductList = () => {
   const { isLoading, data, isSuccess, isError, error } = useQuery({

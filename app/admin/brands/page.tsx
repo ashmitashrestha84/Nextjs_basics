@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FiPlus, FiEdit, FiTrash2, FiX } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 import BrandForm from "@/components/admin/form/brand.form";
 import BrandTable from "@/components/admin/list/brand/page";
 import { IBrand } from "@/types/brand.types";
@@ -31,35 +31,7 @@ const BrandPage = () => {
             Create
           </button>
 
-          <button
-            type="button"
-            onClick={() => setIsUpdateMode(true)}
-            className="flex items-center gap-2 rounded-lg border border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
-          >
-            <FiEdit size={17} />
-            Update
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setIsUpdateMode(false);
-              setSelectedBrand(null);
-            }}
-            className="flex items-center gap-2 rounded-lg border border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
-          >
-            <FiX size={17} />
-            Clear
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
-          >
-            <FiTrash2 size={17} />
-            Delete
-          </button>
-        </div>
+         </div>
       </div>
 
       {showCreateForm && (

@@ -7,6 +7,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Action from "../action";
 
 interface UserTableProps {
   isUpdateMode: boolean;
@@ -42,6 +43,17 @@ const UserTable = ({ isUpdateMode, onSelectUser }: UserTableProps) => {
     {
       accessorKey: "email",
       header: "Email",
+    },
+    {
+      accessorKey: "action",
+      header: "Action",
+      cell: ({row}) => (
+        <Action
+          data={row.original}
+          onEdit={onSelectProduct}
+          onDelete={(product) => console.log("Delete", product)}
+        />
+      ),
     },
   ];
 

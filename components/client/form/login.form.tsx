@@ -12,11 +12,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { All_Admin } from "@/types/enum.types";
-interface LoginFormProps {
-  onLoginSuccess: () => void;
-}
 
-const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
+const LoginForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const {
@@ -41,7 +38,13 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
       await queryClient.refetchQueries({
         queryKey: ["auth", "me"],
       });
-      onLoginSuccess();
+
+      queryClient.removeQueries({
+        queryKey: ["wishlist"],
+      });
+      queryClient.removeQueries({
+        queryKey: ["cart"],
+      });
       if (All_Admin.includes(data.data.role)) {
         router.replace("/dashboard");
       } else {

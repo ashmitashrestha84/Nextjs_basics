@@ -31,29 +31,6 @@ const CategoryPage = () => {
             <FiPlus size={18} />
             Create
           </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg border border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
-          >
-            <FiEdit size={17} />
-            Update
-          </button>
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg border  border-green-800 px-4 py-2.5 text-sm font-medium text-green-800 transition hover:bg-green-50"
-          >
-            <FiX size={17} />
-            Clear
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
-          >
-            <FiTrash2 size={17} />
-            Delete
-          </button>
         </div>
       </div>
 
