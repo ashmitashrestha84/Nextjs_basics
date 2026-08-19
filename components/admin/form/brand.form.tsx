@@ -1,20 +1,32 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TBrand } from "@/types/Abrand.types";
 import { BrandSchema } from "@/schemas/brand.schemas";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+
 import Input from "@/components/common/input";
 import Button from "@/components/button";
-import { brand } from "@/api/brand.api";
 
-const BrandForm = () => {
-  const router = useRouter();
+import { brand, updateBrand } from "@/api/brand.api";
+import { IBrand } from "@/types/brand.types";
+
+interface BrandFormProps {
+  brand?: IBrand;
+  mode?: "create" | "update";
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
+
+const BrandForm = ({
+  brand: selectedBrand,
+  mode = "create",
+  onSuccess,
+  onCancel,
+}: BrandFormProps) => {
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -22,34 +34,67 @@ const BrandForm = () => {
     formState: { errors },
   } = useForm<TBrand>({
     defaultValues: {
-      name: "",
-      description: "",
+      name: selectedBrand?.name ?? "",
+      description: selectedBrand?.description ?? "",
     },
+
     resolver: yupResolver(BrandSchema),
   });
-  const { data, isPending, error, mutate } = useMutation({
-    mutationFn: brand,
-    mutationKey: ["signup"],
-    onSuccess: (data) => {
-      console.log("on success");
-      console.log(data);
-      toast.success(data?.message ?? "Brand register");
-      router.replace("/admin/brands");
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      if (mode === "update") {
+        if (!selectedBrand?._id) {
+          throw new Error("Brand not selected");
+        }
+
+        return updateBrand(selectedBrand._id, formData);
+      }
+
+      return brand(formData);
     },
-    onError: (error: Error) => {
-      console.log("on error");
+
+    onSuccess: (data) => {
+      toast.success(
+        data?.message ??
+          (mode === "update"
+            ? "Brand updated successfully"
+            : "Brand created successfully"),
+      );
+
+      // Refresh brand table
+      queryClient.invalidateQueries({
+        queryKey: ["get-all-brand"],
+      });
+
+      // Close modal
+      onSuccess?.();
+    },
+
+    onError: (error: any) => {
       console.log(error);
-      toast.error(error?.message ?? "Brand Register Failed");
+
+      toast.error(
+        error?.message ??
+          (mode === "update" ? "Brand update failed" : "Brand creation failed"),
+      );
     },
   });
-  const formData = new FormData();
-  const onSubmit = async (data: TBrand) => {
+
+  const onSubmit = (data: TBrand) => {
+    const formData = new FormData();
+
     formData.append("name", data.name);
     formData.append("description", data.description);
-    formData.append("logo", data.logo[0]);
+
+    // Logo is only sent if user selected one
+    if (data.logo?.length) {
+      formData.append("logo", data.logo[0]);
+    }
+
     mutate(formData);
-    router.push("admin/list/brand")
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -77,8 +122,7 @@ const BrandForm = () => {
       />
 
       <Input
-        label="Logo"
-        placeholder=""
+        label={mode === "update" ? "Change Logo (optional)" : "Logo"}
         type="file"
         name="logo"
         id="logo"
@@ -86,7 +130,30 @@ const BrandForm = () => {
         error={errors.logo?.message}
       />
 
-      <Button label="Submit" type="submit" />
+      <div className="flex gap-3">
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="w-full rounded-md border px-4 py-2"
+          >
+            Cancel
+          </button>
+        )}
+
+        <Button
+          label={
+            isPending
+              ? mode === "update"
+                ? "Updating..."
+                : "Creating..."
+              : mode === "update"
+                ? "Update"
+                : "Create"
+          }
+          type="submit"
+        />
+      </div>
     </form>
   );
 };

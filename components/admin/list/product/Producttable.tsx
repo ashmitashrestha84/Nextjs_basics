@@ -1,73 +1,72 @@
 "use client";
 
+import { deleteProduct, getAllProducts } from "@/api/allproduct.api";
+import { IProducts } from "@/types/products.types";
+import Table from "@/components/admin/list/table";
+import Action from "../action";
+
 import {
   ColumnDef,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-
-import { IProducts } from "@/types/products.types";
-import { getAllProducts } from "@/api/allproduct.api";
-
-import Table from "@/components/admin/list/table";
-import Action from "../action";
-import EditableInput from "../editableinput";
+import { useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import DeleteModal from "../../modal/deletemodel";
+import UpdateModal from "../../modal/updatemodel";
+import ProductForm from "../../form/product.form";
 
 const ProductTable = () => {
+  const queryClient = useQueryClient();
+
+  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(
+    null,
+  );
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const { data, isLoading, isError } = useQuery({
-    queryFn: getAllProducts,
     queryKey: ["get-all-products"],
+    queryFn: getAllProducts,
   });
 
-  const [products, setProducts] = useState<IProducts[]>([]);
-  const [editingProductId, setEditingProductId] = useState<string | null>(null);
-  const editedProductRef = useRef<IProducts | null>(null);
+  const products: IProducts[] = data?.data ?? [];
 
-  useEffect(() => {
-    if (data?.data) {
-      setProducts(data.data);
-    }
-  }, [data]);
+  const deleteMutation = useMutation({
+    mutationFn: deleteProduct,
+
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Product deleted successfully");
+
+      queryClient.invalidateQueries({
+        queryKey: ["get-all-products"],
+      });
+
+      setShowDeleteModal(false);
+      setSelectedProduct(null);
+    },
+
+    onError: (error: any) => {
+      toast.error(error?.message ?? "Failed to delete product");
+    },
+  });
 
   const handleEdit = (product: IProducts) => {
-    setEditingProductId(product._id);
-
-    editedProductRef.current = {
-      ...product,
-    };
-  };
-
-  const handleSave = () => {
-    const editedProduct = editedProductRef.current;
-
-    if (!editedProduct) return;
-
-    setProducts((prev) =>
-      prev.map((product) =>
-        product._id === editedProduct._id ? editedProduct : product,
-      ),
-    );
-
-    editedProductRef.current = null;
-    setEditingProductId(null);
-  };
-
-  const handleCancel = () => {
-    editedProductRef.current = null;
-    setEditingProductId(null);
+    setSelectedProduct(product);
+    setIsUpdateOpen(true);
   };
 
   const handleDelete = (product: IProducts) => {
-    setProducts((prev) => prev.filter((item) => item._id !== product._id));
+    setSelectedProduct(product);
+    setShowDeleteModal(true);
   };
 
   const columns = useMemo<ColumnDef<IProducts>[]>(
     () => [
-  
       {
         id: "image",
         header: "Image",
@@ -86,88 +85,29 @@ const ProductTable = () => {
       {
         accessorKey: "name",
         header: "Product",
-
-        cell: ({ row }) => {
-          const product = row.original;
-
-          if (editingProductId === product._id) {
-            return (
-              <EditableInput
-                value={product.name}
-                onChange={(value) => {
-                  if (editedProductRef.current) {
-                    editedProductRef.current.name = String(value);
-                  }
-                }}
-              />
-            );
-          }
-
-          return product.name;
-        },
       },
 
       {
         accessorKey: "price",
         header: "Price",
 
-        cell: ({ row }) => {
-          const product = row.original;
-
-          if (editingProductId === product._id) {
-            return (
-              <EditableInput
-                value={product.price}
-                type="number"
-                onChange={(value) => {
-                  if (editedProductRef.current) {
-                    editedProductRef.current.price = Number(value);
-                  }
-                }}
-              />
-            );
-          }
-
-          return `Rs. ${product.price}`;
-        },
+        cell: ({ row }) => `Rs. ${row.original.price}`,
       },
-
 
       {
         accessorKey: "description",
         header: "Description",
-
-        cell: ({ row }) => {
-          const product = row.original;
-
-          if (editingProductId === product._id) {
-            return (
-              <EditableInput
-                value={product.description}
-                onChange={(value) => {
-                  if (editedProductRef.current) {
-                    editedProductRef.current.description = String(value);
-                  }
-                }}
-              />
-            );
-          }
-
-          return product.description;
-        },
       },
 
       {
         id: "category",
         header: "Category",
-
         accessorFn: (row) => row.category?.name,
       },
 
       {
         id: "brand",
         header: "Brand",
-
         accessorFn: (row) => row.brand?.name,
       },
 
@@ -188,28 +128,6 @@ const ProductTable = () => {
         cell: ({ row }) => {
           const product = row.original;
 
-          if (editingProductId === product._id) {
-            return (
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  className="rounded-md bg-green-700 px-3 py-1 text-sm text-white hover:bg-green-800"
-                >
-                  ✓ Save
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="rounded-md bg-gray-500 px-3 py-1 text-sm text-white hover:bg-gray-600"
-                >
-                  ✕ Cancel
-                </button>
-              </div>
-            );
-          }
-
           return (
             <Action
               data={product}
@@ -220,16 +138,14 @@ const ProductTable = () => {
         },
       },
     ],
-    [editingProductId],
+    [],
   );
-
 
   const table = useReactTable({
     data: products,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
 
   if (isLoading) {
     return <div className="p-6 text-center">Loading products...</div>;
@@ -244,9 +160,43 @@ const ProductTable = () => {
   }
 
   return (
-    <div className="mt-6 overflow-x-auto rounded-lg bg-white">
-      <Table table={table} />
-    </div>
+    <>
+      <div className="mt-6 overflow-x-auto rounded-lg bg-white">
+        <Table table={table} />
+      </div>
+      <UpdateModal
+        open={isUpdateOpen}
+        title="Update Product"
+        onClose={() => setIsUpdateOpen(false)}
+      >
+        {selectedProduct && (
+          <ProductForm
+            product={selectedProduct}
+            mode="update"
+            onSuccess={() => {
+              setIsUpdateOpen(false);
+              queryClient.invalidateQueries({
+                queryKey: ["get-all-products"],
+              });
+            }}
+          />
+        )}
+      </UpdateModal>
+      <DeleteModal
+        open={showDeleteModal}
+        name={selectedProduct?.name ?? ""}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedProduct(null);
+        }}
+        onConfirm={() => {
+          if (!selectedProduct) return;
+
+          deleteMutation.mutate(selectedProduct);
+        }}
+        isLoading={deleteMutation.isPending}
+      />
+    </>
   );
 };
 

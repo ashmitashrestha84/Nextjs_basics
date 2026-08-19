@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FiPlus, FiEdit, FiTrash2, FiX } from "react-icons/fi";
 import ProductForm from "@/components/admin/form/product.form";
 import ProductTable from "@/components/admin/list/product/Producttable";
-import { IProducts } from "@/types/products.types";
 
 const ProductsPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -46,11 +45,13 @@ const ProductsPage = () => {
                     Please enter the product details
                   </p>
                 </div>
-                <ProductForm />
+                <ProductForm
+                  mode="create"
+                  onSuccess={() => setShowCreateForm(false)}
+                />
               </div>
             </div>
           )}
-         
         </div>
       </div>
 

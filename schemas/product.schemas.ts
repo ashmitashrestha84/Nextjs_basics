@@ -1,12 +1,12 @@
 import * as yup from "yup";
 
 export const productSchema = yup.object({
- name: yup
+  name: yup
     .string()
     .min(4, "Product name must be at least 4 characters long")
     .required("Product name is required"),
 
-  price: yup.number().required("Proce is required"),
+  price: yup.number().required("Price is required"),
 
   description: yup
     .string()
@@ -15,12 +15,13 @@ export const productSchema = yup.object({
 
   product_image: yup
     .mixed<FileList>()
-    .required("product image is required")
+    .required("Product image is required")
     .test(
       "fileRequired",
-      "Product_image is required",
+      "Product image is required",
       (value) => !!value && value.length > 0,
     ),
+
   category: yup.string().required("Category is required"),
 
   brand: yup.string().required("Brand is required"),
@@ -29,6 +30,7 @@ export const productSchema = yup.object({
     .mixed<FileList>()
     .test("fileType", "Invalid image", (value) => {
       if (!value || value.length === 0) return true;
+
       return Array.from(value).every((file) => file.type.startsWith("image/"));
     })
     .optional(),
@@ -37,3 +39,4 @@ export const productSchema = yup.object({
 
   is_featured: yup.boolean().default(false),
 });
+

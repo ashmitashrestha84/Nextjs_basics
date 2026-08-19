@@ -7,10 +7,10 @@ export interface IProducts {
   name: string;
   price: number;
   description: string;
-  product_image: Image;
+  product_image?: Image;
   category: ICategories;
   brand: IBrand;
-  images: Image[];
+  images?: Image[];
   new_arrival: boolean;
   is_featured: boolean;
 }

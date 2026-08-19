@@ -26,7 +26,7 @@ const EditableInput = ({
       type={type}
       value={inputValue}
       onChange={(e) => handleChange(e.target.value)}
-      className="w-full rounded border px-2 py-1"
+      className="h-full w-full min-w-0 rounded border px-2 py-1 outline-none"
     />
   );
 };
