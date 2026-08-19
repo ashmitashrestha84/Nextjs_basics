@@ -1,3 +1,4 @@
+import { ICategories } from "@/types/categories.types";
 import api from ".";
 
 //* get all
@@ -7,5 +8,33 @@ export const getAllCategories = async () => {
     return response?.data;
   } catch (error: any) {
     throw error?.response?.data;
+  }
+};
+export const category = async (data: FormData) => {
+  try {
+    const response = await api.post("categories", data);
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw error.response.data;
+  }
+};
+
+export const updateCategories = async (data: ICategories) => {
+  try {
+    const response = await api.put(`/categories/${data._id}`, data);
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response.data;
+  }
+};
+
+export const deleteCategories = async (data: ICategories) => {
+  try {
+    const response = await api.delete(`/categories/${data._id}`);
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response.data;
   }
 };
