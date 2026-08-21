@@ -1,56 +1,143 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Input from "@/components/common/input";
 import Button from "@/components/button";
 import { TCategory } from "@/types/Acategory.types";
-import { categorySchema } from "@/schemas/category.schemas";
-import { category } from "@/api/category.api";
+import {
+  categorySchema,
+  UpdateCategorySchema,
+} from "@/schemas/category.schemas";
+import {
+  category,
+  getCategoryById,
+  updateCategories,
+} from "@/api/category.api";
 
+interface CategoryFormProps {
+  categoryId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
 
-const CategoryForm = () => {
-  const router = useRouter();
+const CategoryForm = ({
+  categoryId,
+  onSuccess,
+  onCancel,
+}: CategoryFormProps) => {
+  const queryClient = useQueryClient();
+  const isEditMode = Boolean(categoryId);
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["category", categoryId],
+
+    queryFn: () => getCategoryById(categoryId as string),
+
+    enabled: isEditMode,
+  });
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TCategory>({
     defaultValues: {
       name: "",
       description: "",
     },
-    resolver: yupResolver(categorySchema),
+
+    resolver: isEditMode
+      ? (yupResolver(UpdateCategorySchema) as any)
+      : (yupResolver(categorySchema) as any),
   });
-  const { data, isPending, error, mutate } = useMutation({
-    mutationFn: category,
-    mutationKey: ["signup"],
-    onSuccess: (data) => {
-      console.log("on success");
-      console.log(data);
-      toast.success(data?.message ?? "Brand register");
-      router.replace("/admin/categories");
+
+  useEffect(() => {
+    if (!isEditMode || !data?.data) {
+      return;
+    }
+
+    const categoryData = data.data;
+
+    reset({
+      name: categoryData.name,
+      description: categoryData.description,
+    });
+  }, [data, isEditMode, reset]);
+
+  const createMutation = useMutation({
+    mutationFn: (formData: FormData) => category(formData),
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Category created successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["get-all-category"],
+      });
+      onSuccess?.();
     },
-    onError: (error: Error) => {
-      console.log("on error");
-      console.log(error);
-      toast.error(error?.message ?? "Brand Register Failed");
+    onError: (error: any) => {
+      toast.error(error?.message ?? "Something went wrong");
     },
   });
-const formData=new FormData()
-  const onSubmit = async (data: TCategory) => {
-    formData.append("name",data.name)
-    formData.append("description",data.description)
-    formData.append("logo",data.logo[0])
-    mutate(formData);
-    router.push("admin/list/category")
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: FormData }) =>
+      updateCategories(id, data),
+
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Product updated successfully");
+
+      queryClient.invalidateQueries({
+        queryKey: ["get-all-category"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["category", categoryId],
+      });
+
+      onSuccess?.();
+    },
+
+    onError: (error: any) => {
+      toast.error(error?.message ?? "Something went wrong");
+    },
+  });
+
+  const isPending = createMutation.isPending || updateMutation.isPending;
+
+  const onSubmit: SubmitHandler<TCategory> = (data) => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+
+    if (data.logo && data.logo.length > 0) {
+      formData.append("product_image", data.logo[0]);
+    }
+
+    if (!isEditMode) {
+      createMutation.mutate(formData);
+
+      return;
+    }
+
+    updateMutation.mutate({
+      id: categoryId as string,
+      data: formData,
+    });
   };
+
+  if (isEditMode && isLoading) {
+    return (
+      <div className="p-6">
+        <p className="text-gray-500">Loading category...</p>
+      </div>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -86,8 +173,37 @@ const formData=new FormData()
         register={register}
         error={errors.logo?.message}
       />
+      {isEditMode && (
+        <p className="text-xs text-gray-400">
+          {" "}
+          Leave empty to keep the existing main image.
+        </p>
+      )}
 
-      <Button label="Submit" type="submit"  />
+      <div className="flex gap-3">
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="w-full rounded-md border px-4 py-2"
+          >
+            Cancel
+          </button>
+        )}
+
+        <Button
+          label={
+            isPending
+              ? isEditMode
+                ? "Updating..."
+                : "Creating..."
+              : isEditMode
+                ? "Update"
+                : "Create"
+          }
+          type="submit"
+        />
+      </div>
     </form>
   );
 };
