@@ -58,11 +58,11 @@ const BrandPage = () => {
         </div>
       )}
 
-      <BrandTable
+      {/* <BrandTable
         isUpdateMode={isUpdateMode}
         onSelectBrand={setSelectedBrand}
         selectedBrand={selectedBrand}
-      />
+      /> */}
     </main>
   );
 };
