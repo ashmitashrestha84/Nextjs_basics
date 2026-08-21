@@ -3,7 +3,7 @@ import { log } from "console";
 
 //* create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: "https://ecommerce-api-v2sa.onrender.com/api/v1",
   withCredentials:true,
   //   headers: {
   //     "Content-Type": "",
