@@ -1,21 +1,32 @@
 "use client";
+
 import Button from "@/components/button";
 import Input from "@/components/common/input";
+
 import { loginSchema } from "@/schemas/auth.schemas";
 import { TLogin } from "@/types/auth.types";
+
 import { yupResolver } from "@hookform/resolvers/yup";
+
 import { useForm } from "react-hook-form";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+
 import { login } from "@/api/auth.api";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import toast from "react-hot-toast";
+
 import { useRouter } from "next/navigation";
+
 import { All_Admin } from "@/types/enum.types";
 
 const LoginForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -25,43 +36,48 @@ const LoginForm = () => {
       email: "",
       password: "",
     },
+
     resolver: yupResolver(loginSchema),
   });
 
-  const { data, isPending, error, mutate } = useMutation({
+  const loginMutation = useMutation({
     mutationFn: login,
-    mutationKey: ["login"],
-    onSuccess: async (data) => {
-      console.log("on success");
-      console.log(data);
-      toast.success(data?.message ?? "Login success");
+
+    onSuccess: async (response) => {
+      toast.success(response?.message ?? "Login successful");
+
       await queryClient.refetchQueries({
         queryKey: ["auth", "me"],
       });
 
+      // Clear user-specific data
       queryClient.removeQueries({
         queryKey: ["wishlist"],
       });
+
       queryClient.removeQueries({
         queryKey: ["cart"],
       });
-      if (All_Admin.includes(data.data.role)) {
+
+      const role = response?.data?.role;
+
+      // Admin
+      if (All_Admin.includes(role)) {
         router.replace("/dashboard");
-      } else {
-        router.replace("/");
+        return;
       }
+
+      // Normal user
+      router.replace("/");
     },
 
-    onError: (error: Error) => {
-      toast.error(error?.message ?? "Login Failed");
-      console.log("on error");
-      console.log(error);
+    onError: (error: any) => {
+      toast.error(error?.message ?? "Login failed");
     },
   });
 
-  const onSubmit = async (data: TLogin) => {
-    mutate(data);
-    console.log("submit end");
+  const onSubmit = (data: TLogin) => {
+    loginMutation.mutate(data);
   };
 
   return (
@@ -73,8 +89,8 @@ const LoginForm = () => {
           type="email"
           name="email"
           id="email"
-          error={errors?.email?.message}
           register={register}
+          error={errors.email?.message}
         />
 
         <Input
@@ -83,18 +99,22 @@ const LoginForm = () => {
           type="password"
           name="password"
           id="password"
-          error={errors?.password?.message}
           register={register}
+          error={errors.password?.message}
         />
 
         <div>
-          <Button label="Login" type="submit" />
+          <Button
+            label={loginMutation.isPending ? "Logging in..." : "Login"}
+            type="submit"
+          />
         </div>
       </form>
+
       <div className="flex flex-row gap-3">
         <button
           type="button"
-          className="flex items-center justify-center gap-2 w-full py-2.5 pl-5 border border-border rounded-sm hover:bg-primary-lighter transition-colors cursor-pointer"
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-border py-2.5 pl-5 transition-colors hover:bg-primary-lighter"
         >
           <FcGoogle size={40} />
           Continue with Google
@@ -102,7 +122,7 @@ const LoginForm = () => {
 
         <button
           type="button"
-          className="flex items-center justify-center gap-2 w-full py-2.5 pl-5 border border-border rounded-sm hover:bg-primary-lighter transition-colors cursor-pointer"
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-border py-2.5 pl-5 transition-colors hover:bg-primary-lighter"
         >
           <FaGithub size={40} />
           Continue with GitHub
