@@ -20,3 +20,9 @@ export const categorySchema = yup.object({
       (value) => !!value && value.length > 0
     ),
 });
+
+export const UpdateCategorySchema=yup.object({
+  name:yup.string().optional(),
+  description:yup.string().optional(),
+  logo: yup.mixed<FileList>().optional(),
+})

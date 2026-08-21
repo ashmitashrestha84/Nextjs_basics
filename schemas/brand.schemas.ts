@@ -20,3 +20,9 @@ export const BrandSchema = yup.object({
       (value) => value instanceof FileList && value.length > 0,
     ),
 });
+
+export const UpdateBrandSchema=yup.object({
+  name:yup.string().optional(),
+  description:yup.string().optional(),
+  logo: yup.mixed<FileList>().optional(),
+})

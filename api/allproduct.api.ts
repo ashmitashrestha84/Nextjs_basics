@@ -19,6 +19,16 @@ export const getFeaturedAllProducts = async () => {
   }
 };
 
+export const getProductById = async (id: string) => {
+  try {
+    const response = await api.get(`/products/${id}`);
+
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response?.data;
+  }
+};
+
 export const product = async (data: FormData) => {
   try {
     const response = await api.post("products", data);

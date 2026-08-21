@@ -1,7 +1,9 @@
 "use client";
 
 import { deleteProduct, getAllProducts } from "@/api/allproduct.api";
+
 import { IProducts } from "@/types/products.types";
+
 import Table from "@/components/admin/list/table";
 import Action from "../action";
 
@@ -14,11 +16,13 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useMemo, useState } from "react";
+
 import toast from "react-hot-toast";
+
 import DeleteModal from "../../modal/deletemodel";
 import UpdateModal from "../../modal/updatemodel";
 import ProductForm from "../../form/product.form";
-import UpdateProductForm from "../../update/productupdateform";
+
 
 const ProductTable = () => {
   const queryClient = useQueryClient();
@@ -26,9 +30,11 @@ const ProductTable = () => {
   const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(
     null,
   );
+
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["get-all-products"],
@@ -56,20 +62,24 @@ const ProductTable = () => {
     },
   });
 
+
   const handleEdit = (product: IProducts) => {
     setSelectedProduct(product);
     setIsUpdateOpen(true);
   };
+
 
   const handleDelete = (product: IProducts) => {
     setSelectedProduct(product);
     setShowDeleteModal(true);
   };
 
+
   const columns = useMemo<ColumnDef<IProducts>[]>(
     () => [
       {
         id: "image",
+
         header: "Image",
 
         cell: ({ row }) => (
@@ -90,6 +100,7 @@ const ProductTable = () => {
 
       {
         accessorKey: "price",
+
         header: "Price",
 
         cell: ({ row }) => `Rs. ${row.original.price}`,
@@ -97,33 +108,41 @@ const ProductTable = () => {
 
       {
         accessorKey: "description",
+
         header: "Description",
       },
 
       {
         id: "category",
+
         header: "Category",
+
         accessorFn: (row) => row.category?.name,
       },
 
       {
         id: "brand",
+
         header: "Brand",
+
         accessorFn: (row) => row.brand?.name,
       },
 
       {
         accessorKey: "new_arrival",
+
         header: "New Arrivals",
       },
 
       {
         accessorKey: "is_featured",
+
         header: "Featured",
       },
 
       {
         id: "action",
+
         header: "Action",
 
         cell: ({ row }) => {
@@ -142,9 +161,12 @@ const ProductTable = () => {
     [],
   );
 
+
   const table = useReactTable({
     data: products,
+
     columns,
+
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -162,9 +184,12 @@ const ProductTable = () => {
 
   return (
     <>
+
       <div className="mt-6 overflow-x-auto rounded-lg bg-white">
         <Table table={table} />
       </div>
+
+
       <UpdateModal
         open={isUpdateOpen}
         title="Update Product"
@@ -174,8 +199,8 @@ const ProductTable = () => {
         }}
       >
         {selectedProduct && (
-          <UpdateProductForm
-            product={selectedProduct}
+          <ProductForm
+            productId={selectedProduct._id}
             onSuccess={() => {
               setIsUpdateOpen(false);
               setSelectedProduct(null);
