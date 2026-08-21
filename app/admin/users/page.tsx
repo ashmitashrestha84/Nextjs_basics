@@ -1,18 +1,13 @@
-"use client"
-import UserTable from "@/components/admin/list/user/page"
+"use client";
+import UserTable from "@/components/admin/list/user/page";
 import RegisterForm from "@/components/client/form/register.form";
 import { IUser } from "@/types/user.types";
 import { useState } from "react";
 import { FiEdit, FiPlus, FiTrash2, FiX } from "react-icons/fi";
 
-
 const Userpage = () => {
-   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(
-    null,
-  );
   return (
     <main className="min-h-screen bg-primary-lighter p-5">
       <div className="flex items-center justify-between">
@@ -50,22 +45,17 @@ const Userpage = () => {
                   <p className="mt-1 text-sm text-gray-500">
                     Please enter the User details
                   </p>
-                  <RegisterForm/>
+                  <RegisterForm />
                 </div>
               </div>
             </div>
           )}
-
         </div>
       </div>
 
-      <UserTable
-        isUpdateMode={isUpdateMode}
-        onSelectUser={setSelectedUser}
-        selectedUser={selectedUser}
-      />
+      <UserTable />
     </main>
-  )
-}
+  );
+};
 
-export default Userpage
+export default Userpage;
