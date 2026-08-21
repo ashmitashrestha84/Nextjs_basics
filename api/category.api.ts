@@ -12,7 +12,7 @@ export const getAllCategories = async () => {
 };
 export const category = async (data: FormData) => {
   try {
-    const response = await api.post("categories", data);
+    const response = await api.post("/categories", data);
     console.log(response);
     return response.data;
   } catch (error: any) {
@@ -21,9 +21,20 @@ export const category = async (data: FormData) => {
   }
 };
 
-export const updateCategories = async (data: ICategories) => {
+export const getCategoryById = async (id: string) => {
   try {
-    const response = await api.put(`/categories/${data._id}`, data);
+    const response = await api.get(`/categories/${id}`);
+
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response?.data;
+  }
+};
+
+
+export const updateCategories = async (id:string,formData:FormData) => {
+  try {
+    const response = await api.put(`/categories/${id}`, formData);
     return response?.data;
   } catch (error: any) {
     throw error?.response.data;

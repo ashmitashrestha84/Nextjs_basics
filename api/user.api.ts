@@ -10,10 +10,20 @@ export const getAllUsers=async()=>{
     }
 }
 
-
-export const updateUser = async (data: IUser) => {
+export const getUserById = async (id: string) => {
   try {
-    const response = await api.put(`/users/${data._id}`, data);
+    const response = await api.get(`/users/${id}`);
+
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response?.data;
+  }
+};
+
+
+export const updateUser = async (id:string,formData:FormData) => {
+  try {
+    const response = await api.put(`/users/${id}`, formData);
     return response?.data;
   } catch (error: any) {
     throw error?.response.data;

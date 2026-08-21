@@ -23,6 +23,18 @@ export const brand = async (data: FormData) => {
 };
 
 
+export const getBrandById = async (id: string) => {
+  try {
+    const response = await api.get(`/brands/${id}`);
+
+    return response?.data;
+  } catch (error: any) {
+    throw error?.response?.data;
+  }
+};
+
+
+
 export const updateBrand = async (id:string, formData:FormData) => {
   try {
     const response = await api.put(`/brands/${id}`, formData);
