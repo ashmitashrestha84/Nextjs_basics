@@ -8,9 +8,6 @@ import { IBrand } from "@/types/brand.types";
 
 const BrandPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [isUpdateMode, setIsUpdateMode] = useState(false);
-
-  const [selectedBrand, setSelectedBrand] = useState<IBrand | null>(null);
 
   return (
     <main className="min-h-screen bg-primary-lighter p-5">
@@ -30,8 +27,7 @@ const BrandPage = () => {
             <FiPlus size={18} />
             Create
           </button>
-
-         </div>
+        </div>
       </div>
 
       {showCreateForm && (
@@ -58,11 +54,7 @@ const BrandPage = () => {
         </div>
       )}
 
-      {/* <BrandTable
-        isUpdateMode={isUpdateMode}
-        onSelectBrand={setSelectedBrand}
-        selectedBrand={selectedBrand}
-      /> */}
+      <BrandTable />
     </main>
   );
 };

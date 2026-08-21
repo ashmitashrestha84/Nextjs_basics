@@ -6,7 +6,10 @@ export const productSchema = yup.object({
     .min(4, "Product name must be at least 4 characters long")
     .required("Product name is required"),
 
-  price: yup.number().required("Price is required"),
+  price: yup
+    .number()
+    .typeError("Price must be a number")
+    .required("Price is required"),
 
   description: yup
     .string()
@@ -20,7 +23,14 @@ export const productSchema = yup.object({
       "fileRequired",
       "Product image is required",
       (value) => !!value && value.length > 0,
-    ),
+    )
+    .test("fileType", "Invalid image", (value) => {
+      if (!value || value.length === 0) {
+        return true;
+      }
+
+      return Array.from(value).every((file) => file.type.startsWith("image/"));
+    }),
 
   category: yup.string().required("Category is required"),
 
@@ -28,35 +38,69 @@ export const productSchema = yup.object({
 
   images: yup
     .mixed<FileList>()
+    .required("Product images are required")
+    .test(
+      "fileRequired",
+      "Product images are required",
+      (value) => !!value && value.length > 0,
+    )
     .test("fileType", "Invalid image", (value) => {
-      if (!value || value.length === 0) return true;
+      if (!value || value.length === 0) {
+        return true;
+      }
 
       return Array.from(value).every((file) => file.type.startsWith("image/"));
-    })
-    .optional(),
+    }),
 
-  new_arrival: yup.boolean().default(false),
+  new_arrival: yup.boolean().required().default(false),
 
-  is_featured: yup.boolean().default(false),
+  is_featured: yup.boolean().required().default(false),
 });
 
 
 export const updateProductSchema = yup.object({
-  name: yup.string().optional(),
+  name: yup
+    .string()
+    .min(4, "Product name must be at least 4 characters long")
+    .required("Product name is required"),
 
-  price: yup.number().typeError("Price must be a number").optional(),
+  price: yup
+    .number()
+    .typeError("Price must be a number")
+    .required("Price is required"),
 
-  description: yup.string().optional(),
+  description: yup
+    .string()
+    .min(10, "Product description must be at least 10 characters long")
+    .required("Description is required"),
 
-  category: yup.string().optional(),
+  category: yup.string().required("Category is required"),
 
-  brand: yup.string().optional(),
+  brand: yup.string().required("Brand is required"),
 
-  product_image: yup.mixed<FileList>().optional(),
+  product_image: yup
+    .mixed<FileList>()
+    .optional()
+    .test("fileType", "Invalid image", (value) => {
+      if (!value || value.length === 0) {
+        return true;
+      }
 
-  images: yup.mixed<FileList>().optional(),
+      return Array.from(value).every((file) => file.type.startsWith("image/"));
+    }),
 
-  new_arrival: yup.boolean().optional(),
+  images: yup
+    .mixed<FileList>()
+    .optional()
+    .test("fileType", "Invalid image", (value) => {
+      if (!value || value.length === 0) {
+        return true;
+      }
 
-  is_featured: yup.boolean().optional(),
+      return Array.from(value).every((file) => file.type.startsWith("image/"));
+    }),
+
+  new_arrival: yup.boolean().required().default(false),
+
+  is_featured: yup.boolean().required().default(false),
 });

@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { product, getProductById, updateProduct } from "@/api/allproduct.api";
 import Button from "@/components/button";
 import Input from "@/components/common/input";
-import { productSchema } from "@/schemas/product.schemas";
+import { productSchema, updateProductSchema } from "@/schemas/product.schemas";
 import { TProduct } from "@/types/Aproduct.types";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 interface ProductFormProps {
@@ -21,11 +20,13 @@ interface ProductFormProps {
 const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
   const queryClient = useQueryClient();
 
-  const isEditMode = !!productId;
+  const isEditMode = Boolean(productId);
 
   const { data, isLoading } = useQuery({
     queryKey: ["product", productId],
-    queryFn: () => getProductById(productId!),
+
+    queryFn: () => getProductById(productId as string),
+
     enabled: isEditMode,
   });
 
@@ -41,41 +42,49 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
       description: "",
       category: "",
       brand: "",
-      is_featured: false,
       new_arrival: false,
+      is_featured: false,
     },
-    resolver: yupResolver(productSchema),
+
+    resolver: isEditMode
+      ? (yupResolver(updateProductSchema) as any)
+      : (yupResolver(productSchema) as any),
   });
 
+
   useEffect(() => {
-    if (isEditMode && data?.data) {
-      const productData = data.data;
-
-      reset({
-        name: productData.name,
-        price: productData.price,
-        description: productData.description,
-
-        category: productData.category?._id ?? productData.category,
-
-        brand: productData.brand?._id ?? productData.brand,
-
-        is_featured: productData.is_featured,
-        new_arrival: productData.new_arrival,
-        product_image: undefined,
-        images: undefined,
-      });
+    if (!isEditMode || !data?.data) {
+      return;
     }
+
+    const productData = data.data;
+
+    reset({
+      name: productData.name,
+
+      price: productData.price,
+
+      description: productData.description,
+
+      category: productData.category?._id ?? productData.category,
+
+      brand: productData.brand?._id ?? productData.brand,
+
+      new_arrival: productData.new_arrival,
+
+      is_featured: productData.is_featured,
+    });
   }, [data, isEditMode, reset]);
+
 
   const createMutation = useMutation({
     mutationFn: (formData: FormData) => product(formData),
 
-    onSuccess: (data) => {
-      toast.success(data?.message ?? "Product created successfully");
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Product created successfully");
 
       queryClient.invalidateQueries({
-        queryKey: ["admin-products"],
+        queryKey: ["get-all-products"],
       });
 
       onSuccess?.();
@@ -85,17 +94,15 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
       toast.error(error?.message ?? "Something went wrong");
     },
   });
-
-
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: FormData }) =>
       updateProduct(id, data),
 
-    onSuccess: (data) => {
-      toast.success(data?.message ?? "Product updated successfully");
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Product updated successfully");
 
       queryClient.invalidateQueries({
-        queryKey: ["admin-products"],
+        queryKey: ["get-all-products"],
       });
 
       queryClient.invalidateQueries({
@@ -112,10 +119,8 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-
-  const onSubmit = (data: TProduct) => {
+  const onSubmit: SubmitHandler<TProduct> = (data) => {
     const formData = new FormData();
-
 
     formData.append("name", data.name);
 
@@ -126,7 +131,6 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
     formData.append("category", data.category);
 
     formData.append("brand", data.brand);
-
 
     formData.append("is_featured", String(data.is_featured));
 
@@ -142,16 +146,19 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
       });
     }
 
-    if (!productId) {
+    if (!isEditMode) {
       createMutation.mutate(formData);
+
       return;
     }
 
+
     updateMutation.mutate({
-      id: productId,
+      id: productId as string,
       data: formData,
     });
   };
+
 
   if (isEditMode && isLoading) {
     return (
@@ -161,13 +168,13 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
     );
   }
 
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       className="flex flex-col gap-3"
     >
-
       <Input
         label="Product Name"
         placeholder="Enter product name"
@@ -179,7 +186,6 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         error={errors.name?.message}
       />
 
-
       <Input
         label="Price"
         placeholder="Enter product price"
@@ -190,8 +196,6 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         required
         error={errors.price?.message}
       />
-
-
       <Input
         label="Description"
         placeholder="Enter product description"
@@ -209,6 +213,7 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         name="product_image"
         id="product_image"
         register={register}
+        required={!isEditMode}
         error={errors.product_image?.message}
       />
 
@@ -240,7 +245,6 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         error={errors.brand?.message}
       />
 
-
       <Input
         label="Images"
         type="file"
@@ -248,6 +252,7 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         id="images"
         multiple
         register={register}
+        required={!isEditMode}
         error={errors.images?.message}
       />
 
@@ -274,7 +279,6 @@ const ProductForm = ({ productId, onSuccess, onCancel }: ProductFormProps) => {
         register={register}
         error={errors.is_featured?.message}
       />
-
 
       <div className="flex gap-3">
         {onCancel && (

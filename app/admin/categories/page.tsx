@@ -58,11 +58,7 @@ const CategoryPage = () => {
           </div>
         </div>
       )}
-      {/* <CategoryTable
-        isUpdateMode={isUpdateMode}
-        onSelectCategory={setSelectedCategory}
-        selectedCategory={selectedCategory}
-      /> */}
+      <CategoryTable/>
     </main>
   );
 };
