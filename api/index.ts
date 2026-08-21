@@ -3,8 +3,8 @@ import { log } from "console";
 
 //* create axios instance
 const api = axios.create({
-  baseURL: "https://ecommerce-api-v2sa.onrender.com/api/v1",
-  withCredentials:true,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  withCredentials: true,
   //   headers: {
   //     "Content-Type": "",
   //   },

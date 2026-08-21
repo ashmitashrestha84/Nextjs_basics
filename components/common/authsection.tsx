@@ -21,7 +21,6 @@ const Authsection = () => {
   return (
     <>
       <div className="relative">
-        {/* User */}
         <button
           onClick={() => setShowUserMenu((prev) => !prev)}
           className="flex items-center gap-2"

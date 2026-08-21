@@ -11,8 +11,10 @@ import { useMutation } from "@tanstack/react-query";
 import { signup } from "@/api/auth.api";
 import toast from "react-hot-toast";
 import { TSignup } from "@/types/auth.types";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router=useRouter()
   const {
     register,
     handleSubmit,
@@ -27,7 +29,7 @@ const RegisterForm = () => {
     },
     resolver: yupResolver(signupSchema),
   });
-  const { data, isPending, error, mutate } = useMutation({
+  const { data, mutate } = useMutation({
     mutationFn: signup,
     mutationKey: ["signup"],
     onSuccess: (data) => {
@@ -35,11 +37,13 @@ const RegisterForm = () => {
       console.log(data);
 
       toast.success(data?.message ?? "Account created");
+      router.replace("/login")
     },
     onError: (error: Error) => {
       console.log("on error");
       console.log(error);
       toast.error(error?.message ?? "Signup Failed");
+      router.replace('/');
     },
   });
 
