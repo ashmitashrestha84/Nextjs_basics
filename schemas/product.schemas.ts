@@ -40,3 +40,23 @@ export const productSchema = yup.object({
   is_featured: yup.boolean().default(false),
 });
 
+
+export const updateProductSchema = yup.object({
+  name: yup.string().optional(),
+
+  price: yup.number().typeError("Price must be a number").optional(),
+
+  description: yup.string().optional(),
+
+  category: yup.string().optional(),
+
+  brand: yup.string().optional(),
+
+  product_image: yup.mixed<FileList>().optional(),
+
+  images: yup.mixed<FileList>().optional(),
+
+  new_arrival: yup.boolean().optional(),
+
+  is_featured: yup.boolean().optional(),
+});

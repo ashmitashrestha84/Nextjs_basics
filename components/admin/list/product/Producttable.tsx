@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import DeleteModal from "../../modal/deletemodel";
 import UpdateModal from "../../modal/updatemodel";
 import ProductForm from "../../form/product.form";
+import UpdateProductForm from "../../update/productupdateform";
 
 const ProductTable = () => {
   const queryClient = useQueryClient();
@@ -167,21 +168,26 @@ const ProductTable = () => {
       <UpdateModal
         open={isUpdateOpen}
         title="Update Product"
-        onClose={() => setIsUpdateOpen(false)}
+        onClose={() => {
+          setIsUpdateOpen(false);
+          setSelectedProduct(null);
+        }}
       >
         {selectedProduct && (
-          <ProductForm
+          <UpdateProductForm
             product={selectedProduct}
-            mode="update"
             onSuccess={() => {
               setIsUpdateOpen(false);
-              queryClient.invalidateQueries({
-                queryKey: ["get-all-products"],
-              });
+              setSelectedProduct(null);
+            }}
+            onCancel={() => {
+              setIsUpdateOpen(false);
+              setSelectedProduct(null);
             }}
           />
         )}
       </UpdateModal>
+
       <DeleteModal
         open={showDeleteModal}
         name={selectedProduct?.name ?? ""}

@@ -114,14 +114,6 @@ const BrandTable = () => {
       >
         {selectedBrand && (
           <BrandForm
-            brand={selectedBrand}
-            mode="update"
-            onSuccess={() => {
-              setIsUpdateOpen(false);
-              queryClient.invalidateQueries({
-                queryKey: ["get-all-brand"],
-              });
-            }}
           />
         )}
       </UpdateModal>

@@ -44,17 +44,11 @@ const UserTable = ({ isUpdateMode, onSelectUser }: UserTableProps) => {
       accessorKey: "email",
       header: "Email",
     },
-    {
-      accessorKey: "action",
-      header: "Action",
-      cell: ({row}) => (
-        <Action
-          data={row.original}
-          onEdit={onSelectProduct}
-          onDelete={(product) => console.log("Delete", product)}
-        />
-      ),
-    },
+    // {
+    //   accessorKey: "action",
+    //   header: "Action",
+    //     <Action/>
+    // },
   ];
 
   const table = useReactTable({

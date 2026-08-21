@@ -32,7 +32,7 @@ export const product = async (data: FormData) => {
 
 export const updateProduct = async (id: string, formData: FormData) => {
   try {
-    const response = await api.patch(`/products/${id}`, formData);
+    const response = await api.put(`/products/${id}`, formData);
 
     return response.data;
   } catch (error: any) {

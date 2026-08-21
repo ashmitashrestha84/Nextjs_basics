@@ -46,7 +46,6 @@ const ProductsPage = () => {
                   </p>
                 </div>
                 <ProductForm
-                  mode="create"
                   onSuccess={() => setShowCreateForm(false)}
                 />
               </div>

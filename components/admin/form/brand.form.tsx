@@ -10,22 +10,14 @@ import toast from "react-hot-toast";
 import Input from "@/components/common/input";
 import Button from "@/components/button";
 
-import { brand, updateBrand } from "@/api/brand.api";
-import { IBrand } from "@/types/brand.types";
+import { brand } from "@/api/brand.api";
 
 interface BrandFormProps {
-  brand?: IBrand;
-  mode?: "create" | "update";
   onSuccess?: () => void;
   onCancel?: () => void;
 }
 
-const BrandForm = ({
-  brand: selectedBrand,
-  mode = "create",
-  onSuccess,
-  onCancel,
-}: BrandFormProps) => {
+const BrandForm = ({ onSuccess, onCancel }: BrandFormProps) => {
   const queryClient = useQueryClient();
 
   const {
@@ -34,8 +26,8 @@ const BrandForm = ({
     formState: { errors },
   } = useForm<TBrand>({
     defaultValues: {
-      name: selectedBrand?.name ?? "",
-      description: selectedBrand?.description ?? "",
+      name: "",
+      description: "",
     },
 
     resolver: yupResolver(BrandSchema),
@@ -43,41 +35,23 @@ const BrandForm = ({
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (formData: FormData) => {
-      if (mode === "update") {
-        if (!selectedBrand?._id) {
-          throw new Error("Brand not selected");
-        }
-
-        return updateBrand(selectedBrand._id, formData);
-      }
-
       return brand(formData);
     },
 
     onSuccess: (data) => {
-      toast.success(
-        data?.message ??
-          (mode === "update"
-            ? "Brand updated successfully"
-            : "Brand created successfully"),
-      );
+      toast.success(data?.message ?? "Brand created successfully");
 
-      // Refresh brand table
       queryClient.invalidateQueries({
         queryKey: ["get-all-brand"],
       });
 
-      // Close modal
       onSuccess?.();
     },
 
     onError: (error: any) => {
       console.log(error);
 
-      toast.error(
-        error?.message ??
-          (mode === "update" ? "Brand update failed" : "Brand creation failed"),
-      );
+      toast.error(error?.message ?? "Brand creation failed");
     },
   });
 
@@ -87,7 +61,6 @@ const BrandForm = ({
     formData.append("name", data.name);
     formData.append("description", data.description);
 
-    // Logo is only sent if user selected one
     if (data.logo?.length) {
       formData.append("logo", data.logo[0]);
     }
@@ -112,7 +85,7 @@ const BrandForm = ({
       />
 
       <Input
-        label="Description"
+        label="Brand Description"
         placeholder="Enter brand description"
         type="text"
         name="description"
@@ -122,7 +95,7 @@ const BrandForm = ({
       />
 
       <Input
-        label={mode === "update" ? "Change Logo (optional)" : "Logo"}
+        label="Logo"
         type="file"
         name="logo"
         id="logo"
@@ -141,18 +114,7 @@ const BrandForm = ({
           </button>
         )}
 
-        <Button
-          label={
-            isPending
-              ? mode === "update"
-                ? "Updating..."
-                : "Creating..."
-              : mode === "update"
-                ? "Update"
-                : "Create"
-          }
-          type="submit"
-        />
+        <Button label={isPending ? "Creating..." : "Create"} type="submit" />
       </div>
     </form>
   );

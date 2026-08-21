@@ -11,7 +11,6 @@ const UpdateModal = ({ open, title, children, onClose }: ModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-lg bg-white shadow-xl">
-        {/* Header */}
         <div className="flex shrink-0 items-center justify-between border-b p-5">
           <h2 className="text-xl font-semibold">{title}</h2>
 

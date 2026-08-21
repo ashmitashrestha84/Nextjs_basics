@@ -1,11 +1,10 @@
 "use client";
 
-import { product, updateProduct } from "@/api/allproduct.api";
+import { product } from "@/api/allproduct.api";
 import Button from "@/components/button";
 import Input from "@/components/common/input";
 import { productSchema } from "@/schemas/product.schemas";
 import { TProduct } from "@/types/Aproduct.types";
-import { IProducts } from "@/types/products.types";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
@@ -13,55 +12,35 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 interface ProductFormProps {
-  product?: IProducts;
-  mode?: "create" | "update";
   onSuccess?: () => void;
   onCancel?: () => void;
 }
 
-const ProductForm = ({
-  product: selectedProduct,
-  mode = "create",
-  onSuccess,
-  onCancel,
-}: ProductFormProps) => {
+const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TProduct>({
     defaultValues: {
-      name: selectedProduct?.name ?? "",
-      price: selectedProduct?.price ?? 0,
-      description: selectedProduct?.description ?? "",
-      category: selectedProduct?.category?._id ?? "",
-      brand: selectedProduct?.brand?._id ?? "",
-      is_featured: selectedProduct?.is_featured ?? false,
-      new_arrival: selectedProduct?.new_arrival ?? false,
+      name: "",
+      price: 0,
+      description: "",
+      category: "",
+      brand: "",
+      is_featured: false,
+      new_arrival: false,
     },
     resolver: yupResolver(productSchema),
   });
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (formData: FormData) => {
-      if (mode === "update") {
-        if (!selectedProduct?._id) {
-          throw new Error("Product not selected");
-        }
-
-        return updateProduct(selectedProduct._id, formData);
-      }
       return product(formData);
     },
 
     onSuccess: (data) => {
-      toast.success(
-        data?.message ??
-          (mode === "update"
-            ? "Product updated successfully"
-            : "Product created successfully"),
-      );
-
+      toast.success(data?.message ?? "Product created successfully");
       onSuccess?.();
     },
 
@@ -72,45 +51,26 @@ const ProductForm = ({
 
   const onSubmit = (data: TProduct) => {
     const formData = new FormData();
-    if (mode === "create") {
-      formData.append("name", data.name);
-      formData.append("price", String(data.price));
-      formData.append("description", data.description);
-      formData.append("category", data.category);
-      formData.append("brand", data.brand);
-      formData.append("is_featured", String(data.is_featured));
-      formData.append("new_arrival", String(data.new_arrival));
 
-      if (data.product_image?.length) {
-        formData.append("product_image", data.product_image[0]);
-      }
+    formData.append("name", data.name);
+    formData.append("price", String(data.price));
+    formData.append("description", data.description);
+    formData.append("category", data.category);
+    formData.append("brand", data.brand);
+    formData.append("is_featured", String(data.is_featured));
+    formData.append("new_arrival", String(data.new_arrival));
 
-      if (data.images?.length) {
-        for (const image of data.images) {
-          formData.append("images", image);
-        }
-      }
+    // Main product image
+    if (data.product_image?.length) {
+      formData.append("product_image", data.product_image[0]);
     }
 
-if (mode === "update") {
-  formData.append("name", data.name);
-  formData.append("price", String(data.price));
-  formData.append("description", data.description);
-  formData.append("category", data.category);
-  formData.append("brand", data.brand);
-  formData.append("is_featured", String(data.is_featured));
-  formData.append("new_arrival", String(data.new_arrival));
-
-  if (data.product_image?.length) {
-    formData.append("product_image", data.product_image[0]);
-  }
-
-  if (data.images?.length) {
-    for (const image of data.images) {
-      formData.append("images", image);
+    // Multiple product images
+    if (data.images?.length) {
+      for (const image of data.images) {
+        formData.append("images", image);
+      }
     }
-  }
-}
 
     mutate(formData);
   };
@@ -130,6 +90,7 @@ if (mode === "update") {
         register={register}
         error={errors.name?.message}
       />
+
       <Input
         label="Price"
         placeholder="Enter product price"
@@ -150,24 +111,8 @@ if (mode === "update") {
         error={errors.description?.message}
       />
 
-      {mode === "update" && selectedProduct?.product_image?.path && (
-        <div>
-          <p className="mb-2 text-sm font-medium text-gray-700">
-            Current Main Image
-          </p>
-
-          <img
-            src={selectedProduct.product_image.path}
-            alt={selectedProduct.name}
-            className="h-32 w-32 rounded-md object-cover"
-          />
-        </div>
-      )}
-
       <Input
-        label={
-          mode === "update" ? "Change Main Image (optional)" : "Main Image"
-        }
+        label="Main Image"
         type="file"
         name="product_image"
         id="product_image"
@@ -195,27 +140,8 @@ if (mode === "update") {
         error={errors.brand?.message}
       />
 
-      {mode === "update" &&
-        selectedProduct?.images &&
-        selectedProduct.images.length > 0 && (
-          <div>
-            <p className="mb-2 text-sm font-medium">Current Images</p>
-
-            <div className="flex flex-wrap gap-3">
-              {selectedProduct.images.map((image) => (
-                <img
-                  key={image.public_id}
-                  src={image.path}
-                  alt="Product image"
-                  className="h-24 w-24 rounded-md object-cover"
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
       <Input
-        label={mode === "update" ? "Add More Images (optional)" : "Images"}
+        label="Images"
         type="file"
         name="images"
         id="images"
@@ -253,18 +179,7 @@ if (mode === "update") {
           </button>
         )}
 
-        <Button
-          label={
-            isPending
-              ? mode === "update"
-                ? "Updating..."
-                : "Creating..."
-              : mode === "update"
-                ? "Update"
-                : "Create"
-          }
-          type="submit"
-        />
+        <Button label={isPending ? "Creating..." : "Create"} type="submit" />
       </div>
     </form>
   );
