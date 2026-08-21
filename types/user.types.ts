@@ -20,5 +20,6 @@ export type IUser = {
 export type TUpdateUser = {
   full_name: string;
   email: string;
+
   profile_image?: FileList;
 };

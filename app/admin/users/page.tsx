@@ -12,12 +12,11 @@ const Userpage = () => {
     <main className="min-h-screen bg-primary-lighter p-5">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold text-primary">Products</h1>
+          <h1 className="text-2xl font-bold text-primary">Users</h1>
 
-          <p className="text-sm text-gray-500">Manage Your Products</p>
+          <p className="text-sm text-gray-500">Manage Your Users</p>
         </div>
-
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => setShowCreateForm(true)}
@@ -51,6 +50,7 @@ const Userpage = () => {
             </div>
           )}
         </div>
+  */}
       </div>
 
       <UserTable />

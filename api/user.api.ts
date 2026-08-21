@@ -20,7 +20,6 @@ export const getUserById = async (id: string) => {
   }
 };
 
-
 export const updateUser = async (id:string,formData:FormData) => {
   try {
     const response = await api.put(`/users/${id}`, formData);
